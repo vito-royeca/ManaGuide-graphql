@@ -1,0 +1,44 @@
+type Language {
+    code: String!
+    displayCode: String!
+    name: String!
+}
+
+type Set {
+    code: String!
+    name: String!
+    releaseDate: String!
+    cardCount: Int!
+    isFoilOnly: Boolean!
+    isOnlineOnly: Boolean!
+    logoCode: String!
+    mtgoCode: String
+    keyruneUnicode: String!
+    keyruneClass: String!
+    yearSection: String!
+    tcgplayerId: Int!
+    setParent: Set
+    setBlock: SetBlock
+    setType: SetType!
+    languages: [Language!]!
+}
+
+type Sets {
+    count: Int!
+    sets: [Set!]!
+}
+
+type SetType {
+    name: String!
+}
+
+type SetBlock {
+    name: String!
+    code: String!
+}
+
+type Query {
+    sets: Sets
+    getSets(type: String): Sets
+    getSet(code: String!): Set
+}

@@ -1,0 +1,92 @@
+fragment SetRelations on Set {
+  setParent {
+    code
+  }
+  setBlock {
+    name
+  }
+  setType {
+    name
+  }
+}
+
+query GetSet($code: String!) {
+  getSet(code: $code) {
+    code
+      name
+      cardCount
+      releaseDate
+      ...SetRelations
+  }
+}
+
+query AllSetsQuery {
+  sets {
+    count
+    sets {
+      code
+      name
+      cardCount
+      releaseDate
+      ...SetRelations
+    }
+  }  
+}
+
+
+query SetsByTypeQuery {
+  expansion:GetSets(type: "Expansion") {
+    count
+    sets {
+        code
+        name
+        cardCount
+        releaseDate
+        ...SetRelations
+    }
+  }
+  commander:GetSets(type: "Commander") {
+    count
+    sets {
+        code
+        name
+        cardCount
+        releaseDate
+        ...SetRelations
+    }
+  }
+}
+
+query SetsByType($type: String) {
+  getSets(type: $type) {
+    count
+    sets {
+        code
+        name
+        cardCount
+        releaseDate
+        ...SetRelations
+    }
+  }  
+}
+
+mutation AddSet {
+  addSet(input: {
+    code: "new"
+    name: "New Set"
+    releaseDate: "2026-04-01"
+    cardCount: 100
+    isFoilOnly: false
+    isOnlineOnly: false
+    logoCode: "new"
+    mtgoCode: "new"
+    keyruneUnicode: "0x"
+    keyruneClass: "new"
+    yearSection: "2006"
+    tcgplayerId: 100
+    setParent: "msh"
+    setBlock: "Ice Age"
+    setType: "Expansion"
+    language: []
+  })
+}

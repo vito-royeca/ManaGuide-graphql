@@ -2,19 +2,54 @@
   "name": "ManaGuide-graphql",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node server.mjs",
-    "dev": "node server.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=22.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "scripts": {
+    "compile": "tsc",
+    "dev": "ts-node-dev --respawn ./src/index.ts",
+    "start": "npm run compile && nodemon ./dist/index.js",
+    "test": "jest"
+  },
   "dependencies": {
+    "@apollo/datasource-rest": "^6.4.1",
+    "@apollo/server": "^5.5.0",
     "camelcase-keys": "^10.0.2",
+    "class-validator": "^0.15.1",
     "graphql": "^16.13.2",
-    "graphql-yoga": "^5.18.1"
+    "graphql-scalars": "^1.25.0",
+    "graphql-tag": "^2.12.6",
+    "graphql-yoga": "^5.18.1",
+    "reflect-metadata": "^0.2.2",
+    "type-graphql": "^2.0.0-rc.3"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^6.2.1",
+    "@graphql-codegen/typescript": "^5.0.9",
+    "@graphql-codegen/typescript-resolvers": "^5.1.7",
+    "@types/jest": "^29.0.3",
+    "@types/node": "^20.19.37",
+    "concurrently": "^8.2.2",
+    "jest": "^29.0.3",
+    "nodemon": "^3.0.0",
+    "ts-jest": "^29.0.2",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": [
+      "src"
+    ],
+    "globals": {
+      "ts-jest": {
+        "testRegext": "/__tests__/.*.test.ts",
+        "verbose": true
+      }
+    }
   }
 }
