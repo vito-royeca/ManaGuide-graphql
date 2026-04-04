@@ -17,12 +17,15 @@
   "dependencies": {
     "@apollo/datasource-rest": "^6.4.1",
     "@apollo/server": "^5.5.0",
+    "@nic-jennings/sql-datasource": "^0.0.7",
     "@parcel/watcher": "^2.5.6",
     "camelcase-keys": "^10.0.2",
     "class-validator": "^0.15.1",
     "graphql": "^16.13.2",
     "graphql-scalars": "^1.25.0",
     "graphql-tag": "^2.12.6",
+    "knex": "^3.2.9",
+    "pg": "^8.20.0",
     "reflect-metadata": "^0.2.2",
     "type-graphql": "^2.0.0-rc.3"
   },

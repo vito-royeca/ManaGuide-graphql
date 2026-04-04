@@ -16,7 +16,7 @@ export class MGSetsRESTDataSource extends RESTDataSource {
         };
     }
 
-    async setsByType(type: String): Promise<MGSets> {
+    async setsByType(type: string): Promise<MGSets> {
         const sets = await this.sets();
         const filteredSets = sets.sets.filter(set => set.setType.name === type);
 
@@ -26,7 +26,7 @@ export class MGSetsRESTDataSource extends RESTDataSource {
         };
     }
 
-    async setByCode(code: String): Promise<MGSet> {
+    async setByCode(code: string): Promise<MGSet> {
         const data = await this.get<MGSet>(`set/${code}/en?json=true&displayAs=image&sortedBy=name&orderBy=asc`);
         const setData = camelcaseKeys(data, { deep: true });
 
