@@ -1,10 +1,10 @@
-type Language {
+type MGLanguage {
     code: String!
     displayCode: String!
     name: String!
 }
 
-type Set {
+type MGSet {
     code: String!
     name: String!
     releaseDate: String!
@@ -17,28 +17,28 @@ type Set {
     keyruneClass: String!
     yearSection: String!
     tcgplayerId: Int!
-    setParent: Set
-    setBlock: SetBlock
-    setType: SetType!
-    languages: [Language!]!
+    setParent: MGSet
+    setBlock: MGSetBlock
+    setType: MGSetType!
+    languages: [MGLanguage!]!
 }
 
-type Sets {
+type MGSets {
     count: Int!
-    sets: [Set!]!
+    sets: [MGSet!]!
 }
 
-type SetType {
+type MGSetType {
     name: String!
 }
 
-type SetBlock {
+type MGSetBlock {
     name: String!
     code: String!
 }
 
 type Query {
-    sets: Sets
-    getSets(type: String): Sets
-    getSet(code: String!): Set
+    sets: MGSets
+    setsByType(type: String!): MGSets
+    setByCode(code: String!): MGSet
 }

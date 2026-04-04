@@ -5,23 +5,24 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=22.0"
+    "node": ">=20.0"
   },
   "scripts": {
     "compile": "tsc",
-    "dev": "ts-node-dev --respawn ./src/index.ts",
+    "dev": "concurrently \"ts-node-dev --respawn --watch .src/graphql/*.graphql ./src/index.ts\" \"npm run generate\"",
     "start": "npm run compile && nodemon ./dist/index.js",
-    "test": "jest"
+    "test": "jest",
+    "generate": "graphql-codegen --watch 'src/graphql/schema.graphql'"
   },
   "dependencies": {
     "@apollo/datasource-rest": "^6.4.1",
     "@apollo/server": "^5.5.0",
+    "@parcel/watcher": "^2.5.6",
     "camelcase-keys": "^10.0.2",
     "class-validator": "^0.15.1",
     "graphql": "^16.13.2",
     "graphql-scalars": "^1.25.0",
     "graphql-tag": "^2.12.6",
-    "graphql-yoga": "^5.18.1",
     "reflect-metadata": "^0.2.2",
     "type-graphql": "^2.0.0-rc.3"
   },

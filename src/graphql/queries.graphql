@@ -1,4 +1,4 @@
-fragment SetRelations on Set {
+fragment SetRelations on MGSet {
   setParent {
     code
   }
@@ -10,8 +10,8 @@ fragment SetRelations on Set {
   }
 }
 
-query GetSet($code: String!) {
-  getSet(code: $code) {
+query SetByCode($code: String!) {
+  setByCode(code: $code) {
     code
       name
       cardCount
@@ -20,7 +20,7 @@ query GetSet($code: String!) {
   }
 }
 
-query AllSetsQuery {
+query Sets {
   sets {
     count
     sets {
@@ -34,8 +34,8 @@ query AllSetsQuery {
 }
 
 
-query SetsByTypeQuery {
-  expansion:GetSets(type: "Expansion") {
+query SetsByType {
+  expansion:setsByType(type: "Expansion") {
     count
     sets {
         code
@@ -45,7 +45,7 @@ query SetsByTypeQuery {
         ...SetRelations
     }
   }
-  commander:GetSets(type: "Commander") {
+  commander:setsByType(type: "Commander") {
     count
     sets {
         code
@@ -57,8 +57,8 @@ query SetsByTypeQuery {
   }
 }
 
-query SetsByType($type: String) {
-  getSets(type: $type) {
+query SetsByType($type: String!) {
+  setsByType(type: $type) {
     count
     sets {
         code
