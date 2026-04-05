@@ -87,7 +87,7 @@ export type MGCard = {
   supertypes: Array<MGCardType>;
   tcgplayerId?: Maybe<Scalars['Int']['output']>;
   toughness?: Maybe<Scalars['String']['output']>;
-  typeLine: Scalars['String']['output'];
+  typeLine?: Maybe<Scalars['String']['output']>;
   variations: Array<MGCard>;
   watermark?: Maybe<MGWatermark>;
 };
@@ -120,6 +120,12 @@ export type MGCardType = {
   __typename?: 'MGCardType';
   name: Scalars['String']['output'];
   parent?: Maybe<MGCardType>;
+};
+
+export type MGCards = {
+  __typename?: 'MGCards';
+  cards: Array<MGCard>;
+  count: Scalars['Int']['output'];
 };
 
 export type MGColor = {
@@ -221,6 +227,7 @@ export type MGSetType = {
   name: Scalars['String']['output'];
 };
 
+/** Results */
 export type MGSets = {
   __typename?: 'MGSets';
   count: Scalars['Int']['output'];
@@ -235,21 +242,21 @@ export type MGWatermark = {
 /** Queries */
 export type Query = {
   __typename?: 'Query';
-  cardByID?: Maybe<MGCard>;
-  setByCode?: Maybe<MGSet>;
+  card?: Maybe<MGCard>;
+  set?: Maybe<MGSet>;
   sets?: Maybe<MGSets>;
   setsByType?: Maybe<MGSets>;
 };
 
 
 /** Queries */
-export type QuerycardByIDArgs = {
-  id?: InputMaybe<Scalars['String']['input']>;
+export type QuerycardArgs = {
+  id: Scalars['String']['input'];
 };
 
 
 /** Queries */
-export type QuerysetByCodeArgs = {
+export type QuerysetArgs = {
   input?: InputMaybe<SetByCodeInput>;
 };
 
@@ -351,6 +358,7 @@ export type ResolversTypes = {
   MGCardFormatLegality: ResolverTypeWrapper<MGCardFormatLegality>;
   MGCardPrice: ResolverTypeWrapper<MGCardPrice>;
   MGCardType: ResolverTypeWrapper<MGCardType>;
+  MGCards: ResolverTypeWrapper<MGCards>;
   MGColor: ResolverTypeWrapper<MGColor>;
   MGComponent: ResolverTypeWrapper<MGComponent>;
   MGFormat: ResolverTypeWrapper<MGFormat>;
@@ -385,6 +393,7 @@ export type ResolversParentTypes = {
   MGCardFormatLegality: MGCardFormatLegality;
   MGCardPrice: MGCardPrice;
   MGCardType: MGCardType;
+  MGCards: MGCards;
   MGColor: MGColor;
   MGComponent: MGComponent;
   MGFormat: MGFormat;
@@ -479,7 +488,7 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   supertypes?: Resolver<Array<ResolversTypes['MGCardType']>, ParentType, ContextType>;
   tcgplayerId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   toughness?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  typeLine?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  typeLine?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   variations?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
   watermark?: Resolver<Maybe<ResolversTypes['MGWatermark']>, ParentType, ContextType>;
 };
@@ -508,6 +517,11 @@ export type MGCardPriceResolvers<ContextType = DataSourceContext, ParentType ext
 export type MGCardTypeResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGCardType'] = ResolversParentTypes['MGCardType']> = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   parent?: Resolver<Maybe<ResolversTypes['MGCardType']>, ParentType, ContextType>;
+};
+
+export type MGCardsResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGCards'] = ResolversParentTypes['MGCards']> = {
+  cards?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 };
 
 export type MGColorResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGColor'] = ResolversParentTypes['MGColor']> = {
@@ -605,8 +619,8 @@ export type MGWatermarkResolvers<ContextType = DataSourceContext, ParentType ext
 };
 
 export type QueryResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  cardByID?: Resolver<Maybe<ResolversTypes['MGCard']>, ParentType, ContextType, Partial<QuerycardByIDArgs>>;
-  setByCode?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetByCodeArgs>>;
+  card?: Resolver<Maybe<ResolversTypes['MGCard']>, ParentType, ContextType, RequireFields<QuerycardArgs, 'id'>>;
+  set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetArgs>>;
   sets?: Resolver<Maybe<ResolversTypes['MGSets']>, ParentType, ContextType>;
   setsByType?: Resolver<Maybe<ResolversTypes['MGSets']>, ParentType, ContextType, RequireFields<QuerysetsByTypeArgs, 'type'>>;
 };
@@ -620,6 +634,7 @@ export type Resolvers<ContextType = DataSourceContext> = {
   MGCardFormatLegality?: MGCardFormatLegalityResolvers<ContextType>;
   MGCardPrice?: MGCardPriceResolvers<ContextType>;
   MGCardType?: MGCardTypeResolvers<ContextType>;
+  MGCards?: MGCardsResolvers<ContextType>;
   MGColor?: MGColorResolvers<ContextType>;
   MGComponent?: MGComponentResolvers<ContextType>;
   MGFormat?: MGFormatResolvers<ContextType>;

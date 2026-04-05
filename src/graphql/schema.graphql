@@ -52,7 +52,7 @@ type MGCard {
     releasedAt: DateTime!
     tcgplayerId: Int
     toughness: String
-    typeLine: String!
+    typeLine: String
     
     artists: [MGArtist!]!
     colors: [MGColor!]!
@@ -178,11 +178,6 @@ type MGSet {
     languages: [MGLanguage!]!
 }
 
-type MGSets {
-    count: Int!
-    sets: [MGSet!]!
-}
-
 type MGSetType {
     name: String!
 }
@@ -196,6 +191,20 @@ type MGWatermark {
     name: String!
 }
 
+
+"""
+Results
+"""
+
+type MGSets {
+    count: Int!
+    sets: [MGSet!]!
+}
+
+type MGCards {
+    count: Int!
+    cards: [MGCard!]!
+}
 
 """
 Inputs
@@ -213,8 +222,9 @@ Queries
 """
 
 type Query {
-    cardByID(id: String): MGCard
+    set(input: SetByCodeInput): MGSet
     sets: MGSets
     setsByType(type: String!): MGSets
-    setByCode(input: SetByCodeInput): MGSet
+
+    card(id: String!): MGCard
 }

@@ -6,6 +6,13 @@ import { MGSet, MGSets } from "../types";
 export class SetsRESTDataSource extends RESTDataSource {
     baseURL = "https://managuideapp.com/";
 
+    async set(code: string): Promise<MGSet> {
+        const data = await this.get<MGSet>(`set/${code}/en?json=true&displayAs=image&sortedBy=name&orderBy=asc`);
+        const setData = camelcaseKeys(data, { deep: true });
+
+        return Array.isArray(setData) ? setData[0] : setData;
+    }
+
     async sets(): Promise<MGSets> {
         const data = await this.get<MGSet[]>("sets?json=true");
         const setsData = camelcaseKeys(data, { deep: true });
@@ -24,12 +31,5 @@ export class SetsRESTDataSource extends RESTDataSource {
             count: filteredSets.length,
             sets: filteredSets
         };
-    }
-
-    async setByCode(code: string): Promise<MGSet> {
-        const data = await this.get<MGSet>(`set/${code}/en?json=true&displayAs=image&sortedBy=name&orderBy=asc`);
-        const setData = camelcaseKeys(data, { deep: true });
-
-        return Array.isArray(setData) ? setData[0] : setData;
     }
 }
