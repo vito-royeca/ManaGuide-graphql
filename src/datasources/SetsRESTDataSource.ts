@@ -3,7 +3,7 @@ import camelcaseKeys from "camelcase-keys";
 
 import { MGSet, MGSets } from "../types";
 
-export class MGSetsRESTDataSource extends RESTDataSource {
+export class SetsRESTDataSource extends RESTDataSource {
     baseURL = "https://managuideapp.com/";
 
     async sets(): Promise<MGSets> {

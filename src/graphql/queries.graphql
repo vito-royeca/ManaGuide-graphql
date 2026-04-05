@@ -10,13 +10,143 @@ fragment SetRelations on MGSet {
   }
 }
 
-query SetByCode($code: String!) {
-  setByCode(code: $code) {
-    code
+fragment CardBasicInfo on MGCard {
+  cardID: newId
+  name
+  printedName
+  mtgoFoilID: mtgoFoilId
+  mtgoID: mtgoId
+  multiverseIDs: multiverseIds
+  tcgplayerID: tcgplayerId
+}
+
+query CardByID($id: String!) {
+  cardByID(id: $id) {
+    ...CardBasicInfo
+    arenaID: arenaId
+    artCropURL
+    cmc
+    collectorNumber
+    faceOrder
+    flavorText
+    handModifier
+    isBooster
+    isDigital
+    isFoil
+    isFullArt
+    isHighresImage
+    isNonfoil
+    isOversized
+    isPromo
+    isReprint
+    isReserved
+    isStorySpotlight
+    isTextless
+    lifeModifier
+    loyalty
+    manaCost
+    numberOrder
+    nameSection
+    normalURL
+    oracleText
+    pngURL
+    power
+    printedText
+    printedTypeLine
+    releasedAt
+    toughness
+    typeLine
+
+    artists {
       name
-      cardCount
-      releaseDate
-      ...SetRelations
+    }
+    colors {
+      name
+      symbol
+    }
+    colorIdentities{
+      name
+      symbol
+    }
+    colorIndicators{
+      name
+      symbol
+    }
+    componentParts {
+      card {
+        ...CardBasicInfo
+      }
+      component {
+        name
+      }
+    }
+    faces {
+      ...CardBasicInfo
+    }
+    formatLegalities {
+      format {
+        name
+      }
+      legality {
+        name
+      }
+    }
+    frame {
+      name
+      description
+    }
+    frameEffects {
+      name
+      description
+    }
+    languages {
+      displayCode
+      name
+    }
+    layout {
+      name
+      description
+    }
+    otherLanguages {
+      ...CardBasicInfo
+    }
+    otherPrintings {
+      ...CardBasicInfo
+    }
+    prices {
+      market
+    }
+    rarity {
+      name
+    }
+    set {
+      code
+    }
+    subtypes {
+      name
+    }
+    supertypes {
+      name
+    }
+    variations {
+      ...CardBasicInfo
+    }
+    watermark {
+      name
+    }
+  }
+}
+
+query SetByCode($input: SetByCodeInput!) {
+  setByCode(input: $input) {
+    code
+    name
+    cardCount
+    releaseDate
+    ...SetRelations
+    cards {
+      cardID: newId
+    }
   }
 }
 
@@ -70,23 +200,3 @@ query SetsByType($type: String!) {
   }  
 }
 
-mutation AddSet {
-  addSet(input: {
-    code: "new"
-    name: "New Set"
-    releaseDate: "2026-04-01"
-    cardCount: 100
-    isFoilOnly: false
-    isOnlineOnly: false
-    logoCode: "new"
-    mtgoCode: "new"
-    keyruneUnicode: "0x"
-    keyruneClass: "new"
-    yearSection: "2006"
-    tcgplayerId: 100
-    setParent: "msh"
-    setBlock: "Ice Age"
-    setType: "Expansion"
-    language: []
-  })
-}

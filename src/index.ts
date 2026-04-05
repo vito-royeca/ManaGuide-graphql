@@ -6,8 +6,9 @@ import path from "path";
 import { gql } from "graphql-tag";
 
 import { resolvers } from "./resolvers";
-import { MGSetsRESTDataSource } from "./datasources/MGSetsRESTDataSource";
-import { MGSetsSQLDataSource } from "./datasources/MGSetsSQLDataSource";
+import { SetsRESTDataSource } from "./datasources/SetsRESTDataSource";
+import { SetsSQLDataSource } from "./datasources/SetsSQLDataSource";
+import { CardsSQLDataSource } from "./datasources/CardsSQLDataSource";
 
 const typeDefs = gql(
     readFileSync(path.resolve(__dirname, "./graphql/schema.graphql"), {
@@ -33,8 +34,12 @@ async function startApolloServer() {
 
             return {
                 dataSources: {
-                    setsRESTDataSource: new MGSetsRESTDataSource({ cache }),
-                    setsSQLDataSource: new MGSetsSQLDataSource({
+                    cardsSQLDataSource: new CardsSQLDataSource({
+                        knexConfig,
+                        cache
+                    }),
+                    setsRESTDataSource: new SetsRESTDataSource({ cache }),
+                    setsSQLDataSource: new SetsSQLDataSource({
                         knexConfig,
                         cache
                     }),

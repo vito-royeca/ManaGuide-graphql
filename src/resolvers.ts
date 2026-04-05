@@ -2,6 +2,9 @@ import { Resolvers } from "./types";
 
 export const resolvers: Resolvers = {
   Query: {
+    cardByID: (_, { id }, { dataSources }) => {
+      return dataSources.cardsSQLDataSource.cardByID(id);
+    },
     sets: (_, __, { dataSources }) => {
       // return dataSources.setsRESTDataSource.sets();
       return dataSources.setsSQLDataSource.sets();
@@ -10,9 +13,12 @@ export const resolvers: Resolvers = {
       // return dataSources.setsRESTDataSource.setsByType(type);
       return dataSources.setsSQLDataSource.setsByType(type);
     },
-    setByCode: (_, { code }, { dataSources }) => {
+    setByCode: (_, { input }, { dataSources }) => {
       // return dataSources.setsRESTDataSource.setByCode(code);
-      return dataSources.setsSQLDataSource.setByCode(code);
-    },
+      if (!input) {
+          throw new Error("input is required");
+      }
+      return dataSources.setsSQLDataSource.setByCode(input);
+    }
   },
 };

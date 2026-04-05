@@ -1,7 +1,161 @@
+scalar Date
+scalar DateTime
+
+"""
+Types
+"""
+
+type MGArtist {
+    firstName: String
+    info: String
+    lastName: String
+    name: String!
+}
+
+type MGCard {
+    arenaId: String
+    artCropURL: String
+    cmc: Int!
+    collectorNumber: String!
+    faceOrder: Int!
+    flavorText: String
+    handModifier: String
+    isBooster: Boolean!
+    isDigital: Boolean!
+    isFoil: Boolean!
+    isFullArt: Boolean!
+    isHighresImage: Boolean!
+    isNonfoil: Boolean!
+    isOversized: Boolean!
+    isPromo: Boolean!
+    isReprint: Boolean!
+    isReserved: Boolean!
+    isStorySpotlight: Boolean!
+    isTextless: Boolean!
+    lifeModifier: String
+    loyalty: String
+    manaCost: String
+    mtgoFoilId: String
+    mtgoId: String
+    multiverseIds: [Int!]
+    numberOrder: Int!
+    name: String!
+    nameSection: String!
+    newId: String
+    normalURL: String
+    oracleText: String
+    pngURL: String
+    power: String
+    printedName: String
+    printedText: String
+    printedTypeLine: String
+    releasedAt: DateTime!
+    tcgplayerId: Int
+    toughness: String
+    typeLine: String!
+    
+    artists: [MGArtist!]!
+    colors: [MGColor!]!
+    colorIdentities: [MGColor!]!
+    colorIndicators: [MGColor!]!
+    componentParts: [MGCardComponent!]!
+    faces: [MGCard!]!
+    formatLegalities: [MGCardFormatLegality!]!
+    frame: MGFrame
+    frameEffects: [MGFrameEffect!]!
+    languages: MGLanguage
+    layout: MGLayout
+    otherLanguages: [MGCard!]!
+    otherPrintings: [MGCard!]!
+    prices: [MGCardPrice!]!
+    rarity: MGRarity
+    set: MGSet
+    subtypes: [MGCardType!]!
+    supertypes: [MGCardType!]!
+    variations: [MGCard!]!
+    watermark: MGWatermark
+}
+
+type MGCardComponent {
+    card: MGCard!
+    component: MGComponent!
+}
+
+type MGCardFormatLegality {
+    format: MGFormat!
+    legality: MGLegality!
+}
+
+type MGCardPrice {
+    id: Int!
+    low: Float
+    median: Float
+    high: Float
+    market: Float
+    directLow: Float
+    isFoil: Boolean
+    dateUpdated: DateTime
+}
+
+type MGCardType {
+    name: String!
+    parent: MGCardType
+}
+
+type MGColor {
+    name: String!
+    symbol: String!
+}
+
+type MGComponent {
+    name: String!
+}
+
+type MGFormat {
+    name: String!
+}
+
+type MGFrame {
+    description: String
+    name: String!
+}
+
+type MGFrameEffect {
+    description: String
+    name: String!
+}
+
 type MGLanguage {
     code: String!
     displayCode: String!
     name: String!
+}
+
+type MGLayout {
+    description: String
+    name: String!
+}
+
+type MGLegality {
+    name: String!
+}
+
+type MGRarity {
+    name: String!
+}
+
+type MGRule {
+    definition: String!
+    id: Int!
+    order: Float!
+    parent: MGRule
+    term: String!
+}
+
+type MGRuling {
+    datePublished: Date!
+    id: Int!
+    text: String!
 }
 
 type MGSet {
@@ -17,6 +171,7 @@ type MGSet {
     keyruneClass: String!
     yearSection: String!
     tcgplayerId: Int!
+    cards: [MGCard!]!
     setParent: MGSet
     setBlock: MGSetBlock
     setType: MGSetType!
@@ -37,8 +192,29 @@ type MGSetBlock {
     code: String!
 }
 
+type MGWatermark {
+    name: String!
+}
+
+
+"""
+Inputs
+"""
+
+input SetByCodeInput {
+  code: String!
+  language: String!
+  sortedBy: String
+  orderBy: String
+}
+
+"""
+Queries
+"""
+
 type Query {
+    cardByID(id: String): MGCard
     sets: MGSets
     setsByType(type: String!): MGSets
-    setByCode(code: String!): MGSet
+    setByCode(input: SetByCodeInput): MGSet
 }
