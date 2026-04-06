@@ -10,22 +10,41 @@ fragment SetRelations on MGSet {
   }
 }
 
+fragment SetBasicInfo on MGSet {
+  code
+  name
+  cardCount
+  releaseDate
+  ...SetRelations
+}
+
+fragment SectionedSets on MGSectionedSets {
+  count
+  sections
+  sectionedSets {
+      count
+      section
+      sets {
+        ...SetBasicInfo
+      }
+  }
+}
+
 fragment CardBasicInfo on MGCard {
   cardID: newId
   name
   printedName
-  
   tcgplayerID: tcgplayerId
 
-  artCropURL
-  normalURL
+  artCropURL: artCropUrl
+  normalURL: normalUrl
+  pngURL: pngUrl
 }
 
-query CardByID($id: String!) {
-  cardByID(id: $id) {
+query Card($id: String!) {
+  card(id: $id) {
     ...CardBasicInfo
     arenaID: arenaId
-    
     cmc
     collectorNumber
     faceOrder
@@ -52,7 +71,6 @@ query CardByID($id: String!) {
     numberOrder
     nameSection
     oracleText
-    pngURL
     power
     printedText
     printedTypeLine
@@ -139,15 +157,11 @@ query CardByID($id: String!) {
   }
 }
 
-query SetByCode($input: SetByCodeInput!) {
-  setByCode(input: $input) {
-    code
-    name
-    cardCount
-    releaseDate
-    ...SetRelations
+query Set($input: SetByCodeInput!) {
+  set(input: $input) {
+    ...SetBasicInfo
     cards {
-      cardID: newId
+      ...CardBasicInfo
     }
   }
 }
@@ -156,49 +170,26 @@ query Sets {
   sets {
     count
     sets {
-      code
-      name
-      cardCount
-      releaseDate
-      ...SetRelations
+      ...SetBasicInfo
     }
   }  
 }
 
-
-query SetsByType {
-  expansion:setsByType(type: "Expansion") {
-    count
-    sets {
-        code
-        name
-        cardCount
-        releaseDate
-        ...SetRelations
-    }
-  }
-  commander:setsByType(type: "Commander") {
-    count
-    sets {
-        code
-        name
-        cardCount
-        releaseDate
-        ...SetRelations
-    }
-  }
+query SetsByName {
+  setsByName {
+    ...SectionedSets
+  }  
 }
 
-query SetsByType($type: String!) {
-  setsByType(type: $type) {
-    count
-    sets {
-        code
-        name
-        cardCount
-        releaseDate
-        ...SetRelations
-    }
+query SetsByType {
+  setsByType {
+    ...SectionedSets
+  }  
+}
+
+query SetsByYear {
+  setsByYear {
+    ...SectionedSets
   }  
 }
 

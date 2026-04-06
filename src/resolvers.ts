@@ -11,8 +11,14 @@ export const resolvers: Resolvers = {
     sets: (_, __, { dataSources }) => {
       return dataSources.setsSQLDataSource.sets();
     },
-    setsByType: (_, { type }, { dataSources }) => {
-      return dataSources.setsSQLDataSource.setsByType(type);
+    setsByName: (_, __, { dataSources }) => {
+      return dataSources.setsSQLDataSource.setsByName();
+    },
+    setsByType: (_, __, { dataSources }) => {
+      return dataSources.setsSQLDataSource.setsByType();
+    },
+    setsByYear: (_, __, { dataSources }) => {
+      return dataSources.setsSQLDataSource.setsByYear();
     },
     
     card: (_, { id }, { dataSources }) => {

@@ -31,7 +31,7 @@ export type MGArtist = {
 export type MGCard = {
   __typename?: 'MGCard';
   arenaId?: Maybe<Scalars['String']['output']>;
-  artCropURL?: Maybe<Scalars['String']['output']>;
+  artCropUrl?: Maybe<Scalars['String']['output']>;
   artists: Array<MGArtist>;
   cmc: Scalars['Int']['output'];
   collectorNumber: Scalars['String']['output'];
@@ -69,12 +69,12 @@ export type MGCard = {
   name: Scalars['String']['output'];
   nameSection: Scalars['String']['output'];
   newId?: Maybe<Scalars['String']['output']>;
-  normalURL?: Maybe<Scalars['String']['output']>;
+  normalUrl?: Maybe<Scalars['String']['output']>;
   numberOrder: Scalars['Int']['output'];
   oracleText?: Maybe<Scalars['String']['output']>;
   otherLanguages: Array<MGCard>;
   otherPrintings: Array<MGCard>;
-  pngURL?: Maybe<Scalars['String']['output']>;
+  pngUrl?: Maybe<Scalars['String']['output']>;
   power?: Maybe<Scalars['String']['output']>;
   prices: Array<MGCardPrice>;
   printedName?: Maybe<Scalars['String']['output']>;
@@ -195,6 +195,20 @@ export type MGRuling = {
   text: Scalars['String']['output'];
 };
 
+export type MGSectionedSet = {
+  __typename?: 'MGSectionedSet';
+  count: Scalars['Int']['output'];
+  section: Scalars['String']['output'];
+  sets: Array<MGSet>;
+};
+
+export type MGSectionedSets = {
+  __typename?: 'MGSectionedSets';
+  count: Scalars['Int']['output'];
+  sectionedSets: Array<MGSectionedSet>;
+  sections: Array<Scalars['String']['output']>;
+};
+
 export type MGSet = {
   __typename?: 'MGSet';
   cardCount: Scalars['Int']['output'];
@@ -244,8 +258,11 @@ export type Query = {
   __typename?: 'Query';
   card?: Maybe<MGCard>;
   set?: Maybe<MGSet>;
+  setTypes?: Maybe<MGSetType>;
   sets?: Maybe<MGSets>;
-  setsByType?: Maybe<MGSets>;
+  setsByName?: Maybe<MGSectionedSets>;
+  setsByType?: Maybe<MGSectionedSets>;
+  setsByYear?: Maybe<MGSectionedSets>;
 };
 
 
@@ -258,12 +275,6 @@ export type QuerycardArgs = {
 /** Queries */
 export type QuerysetArgs = {
   input?: InputMaybe<SetByCodeInput>;
-};
-
-
-/** Queries */
-export type QuerysetsByTypeArgs = {
-  type: Scalars['String']['input'];
 };
 
 /** Inputs */
@@ -370,6 +381,8 @@ export type ResolversTypes = {
   MGRarity: ResolverTypeWrapper<MGRarity>;
   MGRule: ResolverTypeWrapper<MGRule>;
   MGRuling: ResolverTypeWrapper<MGRuling>;
+  MGSectionedSet: ResolverTypeWrapper<MGSectionedSet>;
+  MGSectionedSets: ResolverTypeWrapper<MGSectionedSets>;
   MGSet: ResolverTypeWrapper<MGSet>;
   MGSetBlock: ResolverTypeWrapper<MGSetBlock>;
   MGSetType: ResolverTypeWrapper<MGSetType>;
@@ -405,6 +418,8 @@ export type ResolversParentTypes = {
   MGRarity: MGRarity;
   MGRule: MGRule;
   MGRuling: MGRuling;
+  MGSectionedSet: MGSectionedSet;
+  MGSectionedSets: MGSectionedSets;
   MGSet: MGSet;
   MGSetBlock: MGSetBlock;
   MGSetType: MGSetType;
@@ -432,7 +447,7 @@ export type MGArtistResolvers<ContextType = DataSourceContext, ParentType extend
 
 export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGCard'] = ResolversParentTypes['MGCard']> = {
   arenaId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  artCropURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  artCropUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   artists?: Resolver<Array<ResolversTypes['MGArtist']>, ParentType, ContextType>;
   cmc?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   collectorNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -470,12 +485,12 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   nameSection?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   newId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  normalURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  normalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   numberOrder?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   oracleText?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   otherLanguages?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
   otherPrintings?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
-  pngURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  pngUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   power?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   prices?: Resolver<Array<ResolversTypes['MGCardPrice']>, ParentType, ContextType>;
   printedName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -580,6 +595,18 @@ export type MGRulingResolvers<ContextType = DataSourceContext, ParentType extend
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
+export type MGSectionedSetResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGSectionedSet'] = ResolversParentTypes['MGSectionedSet']> = {
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  section?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sets?: Resolver<Array<ResolversTypes['MGSet']>, ParentType, ContextType>;
+};
+
+export type MGSectionedSetsResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGSectionedSets'] = ResolversParentTypes['MGSectionedSets']> = {
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  sectionedSets?: Resolver<Array<ResolversTypes['MGSectionedSet']>, ParentType, ContextType>;
+  sections?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
 export type MGSetResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGSet'] = ResolversParentTypes['MGSet']> = {
   cardCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   cards?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
@@ -621,8 +648,11 @@ export type MGWatermarkResolvers<ContextType = DataSourceContext, ParentType ext
 export type QueryResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   card?: Resolver<Maybe<ResolversTypes['MGCard']>, ParentType, ContextType, RequireFields<QuerycardArgs, 'id'>>;
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetArgs>>;
+  setTypes?: Resolver<Maybe<ResolversTypes['MGSetType']>, ParentType, ContextType>;
   sets?: Resolver<Maybe<ResolversTypes['MGSets']>, ParentType, ContextType>;
-  setsByType?: Resolver<Maybe<ResolversTypes['MGSets']>, ParentType, ContextType, RequireFields<QuerysetsByTypeArgs, 'type'>>;
+  setsByName?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
+  setsByType?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
+  setsByYear?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = DataSourceContext> = {
@@ -646,6 +676,8 @@ export type Resolvers<ContextType = DataSourceContext> = {
   MGRarity?: MGRarityResolvers<ContextType>;
   MGRule?: MGRuleResolvers<ContextType>;
   MGRuling?: MGRulingResolvers<ContextType>;
+  MGSectionedSet?: MGSectionedSetResolvers<ContextType>;
+  MGSectionedSets?: MGSectionedSetsResolvers<ContextType>;
   MGSet?: MGSetResolvers<ContextType>;
   MGSetBlock?: MGSetBlockResolvers<ContextType>;
   MGSetType?: MGSetTypeResolvers<ContextType>;

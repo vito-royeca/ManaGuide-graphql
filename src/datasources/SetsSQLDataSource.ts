@@ -2,7 +2,7 @@ import { BatchedSQLDataSource, BatchedSQLDataSourceProps } from "@nic-jennings/s
 import { Knex } from 'knex';
 import camelcaseKeys from "camelcase-keys";
 
-import { MGCard, MGLanguage, MGSet, MGSetBlock, MGSets, MGSetType, SetByCodeInput } from "../types";
+import { MGCard, MGLanguage, MGSectionedSet, MGSectionedSets, MGSet, MGSetBlock, MGSets, MGSetType, SetByCodeInput } from "../types";
 
 export class SetsSQLDataSource extends BatchedSQLDataSource {
     constructor(config: BatchedSQLDataSourceProps) {
@@ -55,13 +55,73 @@ export class SetsSQLDataSource extends BatchedSQLDataSource {
         };
     }
 
-    async setsByType(type: string): Promise<MGSets> {
-        const sets = await this.sets();
-        const filteredSets = sets.sets.filter(set => set.setType.name === type);
+    async setsByName(): Promise<MGSectionedSets> {
+        const sets = (await this.sets()).sets;
+        const regex = /^[\p{L}]/u;
+        const keys = new Set(sets.flatMap( (d) => 
+            regex.test(d.name[0]) ? d.name[0].toUpperCase() : "#").sort()    
+        );
+        let arrays: MGSectionedSet[] = [];
+
+        keys.forEach(function (item, _) {
+            let slice: MGSet[] = [];
+
+            if (item === '#') {
+                slice = sets.filter(d => !regex.test(d.name[0]))
+            } else {
+                slice = sets.filter(d => d.name.toUpperCase().startsWith(item))
+            }
+            arrays.push({ count: slice.length, section: item, sets: slice });
+        });
 
         return {
-            count: filteredSets.length,
-            sets: filteredSets
+            count: sets.length,
+            sections: Array.from(keys).sort(),
+            sectionedSets: arrays
+        };
+    }
+
+    async setsByType(): Promise<MGSectionedSets> {
+        const sets = (await this.sets()).sets;
+        const regex = /^[\p{L}]/u;
+        const keys = new Set(sets.flatMap( (d) => 
+            regex.test(d.setType.name[0]) ? d.setType.name[0].toUpperCase() : "#").sort()    
+        );
+        let arrays: MGSectionedSet[] = [];
+
+        keys.forEach(function (item, _) {
+            let slice: MGSet[] = [];
+
+            if (item === '#') {
+                slice = sets.filter(d => !regex.test(d.setType.name[0]))
+            } else {
+                slice = sets.filter(d => d.setType.name.toUpperCase().startsWith(item))
+            }
+            arrays.push({ count: slice.length, section: item, sets: slice });
+        });
+
+        return {
+            count: sets.length,
+            sections: Array.from(keys).sort(),
+            sectionedSets: arrays
+        };
+    }
+
+    async setsByYear(): Promise<MGSectionedSets> {
+        const sets = (await this.sets()).sets;
+        const regex = /^[\p{L}]/u;
+        const keys = new Set(sets.flatMap( (d) => d.yearSection).sort());
+        let arrays: MGSectionedSet[] = [];
+
+        keys.forEach(function (item, _) {
+            let slice: MGSet[] = sets.filter(d => d.yearSection === item);
+            arrays.push({ count: slice.length, section: item, sets: slice });
+        });
+
+        return {
+            count: sets.length,
+            sections: Array.from(keys).sort(),
+            sectionedSets: arrays
         };
     }
 

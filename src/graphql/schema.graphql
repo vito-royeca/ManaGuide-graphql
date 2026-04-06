@@ -14,7 +14,7 @@ type MGArtist {
 
 type MGCard {
     arenaId: String
-    artCropURL: String
+    artCropUrl: String
     cmc: Int!
     collectorNumber: String!
     faceOrder: Int!
@@ -42,9 +42,9 @@ type MGCard {
     name: String!
     nameSection: String!
     newId: String
-    normalURL: String
+    normalUrl: String
     oracleText: String
-    pngURL: String
+    pngUrl: String
     power: String
     printedName: String
     printedText: String
@@ -201,6 +201,18 @@ type MGSets {
     sets: [MGSet!]!
 }
 
+type MGSectionedSet {
+    count: Int!
+    section: String!
+    sets: [MGSet!]!
+}
+
+type MGSectionedSets {
+    count: Int!
+    sections: [String!]!
+    sectionedSets: [MGSectionedSet!]!
+}
+
 type MGCards {
     count: Int!
     cards: [MGCard!]!
@@ -224,7 +236,10 @@ Queries
 type Query {
     set(input: SetByCodeInput): MGSet
     sets: MGSets
-    setsByType(type: String!): MGSets
+    setTypes: MGSetType
+    setsByName: MGSectionedSets
+    setsByType: MGSectionedSets
+    setsByYear: MGSectionedSets
 
     card(id: String!): MGCard
 }
