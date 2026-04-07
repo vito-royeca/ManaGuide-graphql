@@ -1,4 +1,9 @@
-fragment SetRelations on MGSet {
+
+fragment SetBasicInfo on MGSet {
+  code
+  name
+  cardCount
+  releaseDate
   setParent {
     code
   }
@@ -10,12 +15,8 @@ fragment SetRelations on MGSet {
   }
 }
 
-fragment SetBasicInfo on MGSet {
-  code
-  name
-  cardCount
-  releaseDate
-  ...SetRelations
+fragment SetInfo on MGSet {
+  ...SetBasicInfo
 }
 
 fragment SectionedSets on MGSectionedSets {
@@ -25,7 +26,7 @@ fragment SectionedSets on MGSectionedSets {
       count
       section
       sets {
-        ...SetBasicInfo
+        ...SetInfo
       }
   }
 }
@@ -41,125 +42,129 @@ fragment CardBasicInfo on MGCard {
   pngURL: pngUrl
 }
 
+fragment CardInfo on MGCard {
+  ...CardBasicInfo
+  arenaID: arenaId
+  cmc
+  collectorNumber
+  faceOrder
+  flavorText
+  handModifier
+  isBooster
+  isDigital
+  isFoil
+  isFullArt
+  isHighresImage
+  isNonfoil
+  isOversized
+  isPromo
+  isReprint
+  isReserved
+  isStorySpotlight
+  isTextless
+  lifeModifier
+  loyalty
+  manaCost
+  mtgoFoilID: mtgoFoilId
+  mtgoID: mtgoId
+  multiverseIDs: multiverseIds
+  numberOrder
+  nameSection
+  oracleText
+  power
+  printedText
+  printedTypeLine
+  releasedAt
+  toughness
+  typeLine
+  artists {
+    name
+  }
+  colors {
+    name
+    symbol
+  }
+  colorIdentities{
+    name
+    symbol
+  }
+  colorIndicators{
+    name
+    symbol
+  }
+  componentParts {
+    card {
+      ...CardBasicInfo
+    }
+    component {
+      name
+    }
+  }
+  faces {
+    ...CardBasicInfo
+  }
+  formatLegalities {
+    format {
+      name
+    }
+    legality {
+      name
+    }
+  }
+  frame {
+    name
+    description
+  }
+  frameEffects {
+    name
+    description
+  }
+  languages {
+    displayCode
+    name
+  }
+  layout {
+    name
+    description
+  }
+  otherLanguages {
+    ...CardBasicInfo
+  }
+  otherPrintings {
+    ...CardBasicInfo
+  }
+  prices {
+    market
+  }
+  rarity {
+    name
+  }
+  set {
+    code
+  }
+  subtypes {
+    name
+  }
+  supertypes {
+    name
+  }
+  variations {
+    ...CardBasicInfo
+  }
+  watermark {
+    name
+  }
+}
+
 query Card($id: String!) {
   card(id: $id) {
-    ...CardBasicInfo
-    arenaID: arenaId
-    cmc
-    collectorNumber
-    faceOrder
-    flavorText
-    handModifier
-    isBooster
-    isDigital
-    isFoil
-    isFullArt
-    isHighresImage
-    isNonfoil
-    isOversized
-    isPromo
-    isReprint
-    isReserved
-    isStorySpotlight
-    isTextless
-    lifeModifier
-    loyalty
-    manaCost
-    mtgoFoilID: mtgoFoilId
-    mtgoID: mtgoId
-    multiverseIDs: multiverseIds
-    numberOrder
-    nameSection
-    oracleText
-    power
-    printedText
-    printedTypeLine
-    releasedAt
-    toughness
-    typeLine
-    artists {
-      name
-    }
-    colors {
-      name
-      symbol
-    }
-    colorIdentities{
-      name
-      symbol
-    }
-    colorIndicators{
-      name
-      symbol
-    }
-    componentParts {
-      card {
-        ...CardBasicInfo
-      }
-      component {
-        name
-      }
-    }
-    faces {
-      ...CardBasicInfo
-    }
-    formatLegalities {
-      format {
-        name
-      }
-      legality {
-        name
-      }
-    }
-    frame {
-      name
-      description
-    }
-    frameEffects {
-      name
-      description
-    }
-    languages {
-      displayCode
-      name
-    }
-    layout {
-      name
-      description
-    }
-    otherLanguages {
-      ...CardBasicInfo
-    }
-    otherPrintings {
-      ...CardBasicInfo
-    }
-    prices {
-      market
-    }
-    rarity {
-      name
-    }
-    set {
-      code
-    }
-    subtypes {
-      name
-    }
-    supertypes {
-      name
-    }
-    variations {
-      ...CardBasicInfo
-    }
-    watermark {
-      name
-    }
+    ...CardInfo
   }
 }
 
 query Set($input: SetByCodeInput!) {
   set(input: $input) {
-    ...SetBasicInfo
+    ...SetInfo
     cards {
       ...CardBasicInfo
     }
@@ -172,6 +177,12 @@ query Sets {
     sets {
       ...SetBasicInfo
     }
+  }  
+}
+
+query SetsByBlock {
+  setsByBlock {
+    ...SectionedSets
   }  
 }
 

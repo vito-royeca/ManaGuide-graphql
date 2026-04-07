@@ -1,8 +1,8 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 
-import { readFileSync } from "fs";
-import path from "path";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { gql } from "graphql-tag";
 
 import { resolvers } from "./resolvers";
@@ -16,11 +16,30 @@ const typeDefs = gql(
     })
 );
 
-// In terminal, run: export PG_CONNECTION_STRING=postgres://[user]:[password]@[host]:[port]/[database]
-const knexConfig = {
-  client: "pg",
-  connection: process.env.PG_CONNECTION_STRING,
-};
+// In terminal, run:
+// export PG_CONNECTION_STRING=postgres://[user]:[password]@[host]:[port]/[database]
+// export DATASOURCE_TYPE=SQL | REST
+
+function createDataSources(cache: any) {
+    // if (process.env.DATASOURCE_TYPE === "SQL") {
+    //     const knexConfig = {
+    //         client: "pg",
+    //         connection: process.env.PG_CONNECTION_STRING,
+    //     };
+    //     return {
+    //         dataSources: {
+    //             cardsDataSource: new CardsSQLDataSource({ knexConfig, cache }),
+    //             setsDataSource: new SetsSQLDataSource({ knexConfig, cache }),
+    //         },
+    //     };
+    // } else {
+        return {
+            dataSources: {
+                setsDataSource: new SetsRESTDataSource({ cache }),
+            },
+        };
+    // }
+}
 
 async function startApolloServer() {
     const server = new ApolloServer({
@@ -31,19 +50,10 @@ async function startApolloServer() {
     const { url } = await startStandaloneServer(server, {
         context: async () => {
             const { cache } = server;
+            const dataSources = createDataSources(cache).dataSources;
 
             return {
-                dataSources: {
-                    cardsSQLDataSource: new CardsSQLDataSource({
-                        knexConfig,
-                        cache
-                    }),
-                    setsRESTDataSource: new SetsRESTDataSource({ cache }),
-                    setsSQLDataSource: new SetsSQLDataSource({
-                        knexConfig,
-                        cache
-                    }),
-                },
+                dataSources
             };
         },
     });

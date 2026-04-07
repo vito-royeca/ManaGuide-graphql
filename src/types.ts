@@ -260,6 +260,7 @@ export type Query = {
   set?: Maybe<MGSet>;
   setTypes?: Maybe<MGSetType>;
   sets?: Maybe<MGSets>;
+  setsByBlock?: Maybe<MGSectionedSets>;
   setsByName?: Maybe<MGSectionedSets>;
   setsByType?: Maybe<MGSectionedSets>;
   setsByYear?: Maybe<MGSectionedSets>;
@@ -650,6 +651,7 @@ export type QueryResolvers<ContextType = DataSourceContext, ParentType extends R
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetArgs>>;
   setTypes?: Resolver<Maybe<ResolversTypes['MGSetType']>, ParentType, ContextType>;
   sets?: Resolver<Maybe<ResolversTypes['MGSets']>, ParentType, ContextType>;
+  setsByBlock?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
   setsByName?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
   setsByType?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
   setsByYear?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;

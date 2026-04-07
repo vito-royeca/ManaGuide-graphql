@@ -237,6 +237,7 @@ type Query {
     set(input: SetByCodeInput): MGSet
     sets: MGSets
     setTypes: MGSetType
+    setsByBlock: MGSectionedSets
     setsByName: MGSectionedSets
     setsByType: MGSectionedSets
     setsByYear: MGSectionedSets

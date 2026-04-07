@@ -1,4 +1,4 @@
-import { MGLanguage, MGSetType, Resolvers } from "./types";
+import { Resolvers } from "./types";
 
 export const resolvers: Resolvers = {
   Query: {
@@ -6,23 +6,26 @@ export const resolvers: Resolvers = {
       if (!input) {
           throw new Error("input is required");
       }
-      return dataSources.setsSQLDataSource.set(input);
+      return dataSources.setsDataSource.set(input);
     },
     sets: (_, __, { dataSources }) => {
-      return dataSources.setsSQLDataSource.sets();
+      return dataSources.setsDataSource.sets();
+    },
+    setsByBlock: (_, __, { dataSources }) => {
+      return dataSources.setsDataSource.setsByBlock();
     },
     setsByName: (_, __, { dataSources }) => {
-      return dataSources.setsSQLDataSource.setsByName();
+      return dataSources.setsDataSource.setsByName();
     },
     setsByType: (_, __, { dataSources }) => {
-      return dataSources.setsSQLDataSource.setsByType();
+      return dataSources.setsDataSource.setsByType();
     },
     setsByYear: (_, __, { dataSources }) => {
-      return dataSources.setsSQLDataSource.setsByYear();
+      return dataSources.setsDataSource.setsByYear();
     },
     
     card: (_, { id }, { dataSources }) => {
-      return dataSources.cardsSQLDataSource.card(id);
+      return dataSources.cardsDataSource.card(id);
     },
   }
 };

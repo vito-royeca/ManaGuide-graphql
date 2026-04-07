@@ -2,10 +2,15 @@ import { CardsSQLDataSource } from "./datasources/CardsSQLDataSource";
 import { SetsRESTDataSource } from "./datasources/SetsRESTDataSource";
 import { SetsSQLDataSource } from "./datasources/SetsSQLDataSource";
 
-export type DataSourceContext = {
+export type RESTDataSourceContext = {
     dataSources: {
-        cardsSQLDataSource: CardsSQLDataSource;
-        setsRESTDataSource: SetsRESTDataSource;
-        setsSQLDataSource: SetsSQLDataSource;
+        setsDataSource: SetsRESTDataSource;
+    };
+};
+
+export type SQLDataSourceContext = {
+    dataSources: {
+        cardsDataSource: CardsSQLDataSource;
+        setsDataSource: SetsSQLDataSource;
     };
 };
