@@ -4,9 +4,6 @@ fragment SetBasicInfo on MGSet {
   name
   cardCount
   releaseDate
-  setParent {
-    code
-  }
   setBlock {
     name
   }
@@ -17,6 +14,15 @@ fragment SetBasicInfo on MGSet {
 
 fragment SetInfo on MGSet {
   ...SetBasicInfo
+  children {
+    ...SetBasicInfo
+    children {
+      ...SetBasicInfo
+        children {
+          ...SetBasicInfo
+        }
+    }
+  }
 }
 
 fragment SectionedSets on MGSectionedSets {
@@ -69,7 +75,6 @@ fragment CardInfo on MGCard {
   mtgoID: mtgoId
   multiverseIDs: multiverseIds
   numberOrder
-  nameSection
   oracleText
   power
   printedText
@@ -175,7 +180,7 @@ query Sets {
   sets {
     count
     sets {
-      ...SetBasicInfo
+      ...SetInfo
     }
   }  
 }

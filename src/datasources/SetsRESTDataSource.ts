@@ -16,11 +16,42 @@ export class SetsRESTDataSource extends RESTDataSource {
     async sets(): Promise<MGSets> {
         const data = await this.get<MGSet[]>("sets?json=true");
         const setsData = camelcaseKeys(data, { deep: true });
+        let newSetsData: MGSet[] = [];
 
+        setsData.forEach((set, _) => {
+            if (set.setParent === null) {
+                let currentSet = set; 
+                let setChildren: MGSet[] = [];
+
+                do {
+                    setChildren = this.findChildren(currentSet, setsData);
+                    currentSet.children = setChildren;
+
+                    setChildren.forEach((child, _) => {
+                        const childChildren = this.findChildren(child, setsData);
+                        child.children = childChildren;
+
+                        childChildren.forEach((grandChild, _) => {
+                            const grandChildChildren = this.findChildren(grandChild, setsData);
+                            grandChild.children = grandChildChildren;
+                        });
+                    });
+                    currentSet = setChildren[0];
+                    
+                } while (currentSet !== undefined);
+                newSetsData.push(set);
+            }
+        });
+        
         return {
-            count: setsData.length,
-            sets: setsData
+            count: newSetsData.length,
+            sets: newSetsData
         };
+    }
+
+    findChildren = (set: MGSet, setsData: MGSet[]): MGSet[] => {
+        const children = setsData.filter(d => d.setParent ? d.setParent.code === set.code : false);
+        return children;
     }
 
     async setsByBlock(): Promise<MGSectionedSets> {

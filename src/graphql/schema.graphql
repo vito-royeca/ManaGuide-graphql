@@ -40,7 +40,6 @@ type MGCard {
     multiverseIds: [Int!]
     numberOrder: Int!
     name: String!
-    nameSection: String!
     newId: String
     normalUrl: String
     oracleText: String
@@ -172,6 +171,7 @@ type MGSet {
     yearSection: String!
     tcgplayerId: Int!
     cards: [MGCard!]!
+    children: [MGSet!]
     setParent: MGSet
     setBlock: MGSetBlock
     setType: MGSetType!

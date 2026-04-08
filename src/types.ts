@@ -67,7 +67,6 @@ export type MGCard = {
   mtgoId?: Maybe<Scalars['String']['output']>;
   multiverseIds?: Maybe<Array<Scalars['Int']['output']>>;
   name: Scalars['String']['output'];
-  nameSection: Scalars['String']['output'];
   newId?: Maybe<Scalars['String']['output']>;
   normalUrl?: Maybe<Scalars['String']['output']>;
   numberOrder: Scalars['Int']['output'];
@@ -213,6 +212,7 @@ export type MGSet = {
   __typename?: 'MGSet';
   cardCount: Scalars['Int']['output'];
   cards: Array<MGCard>;
+  children?: Maybe<Array<MGSet>>;
   code: Scalars['String']['output'];
   isFoilOnly: Scalars['Boolean']['output'];
   isOnlineOnly: Scalars['Boolean']['output'];
@@ -484,7 +484,6 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   mtgoId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   multiverseIds?: Resolver<Maybe<Array<ResolversTypes['Int']>>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  nameSection?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   newId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   normalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   numberOrder?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -611,6 +610,7 @@ export type MGSectionedSetsResolvers<ContextType = DataSourceContext, ParentType
 export type MGSetResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGSet'] = ResolversParentTypes['MGSet']> = {
   cardCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   cards?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
+  children?: Resolver<Maybe<Array<ResolversTypes['MGSet']>>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isFoilOnly?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isOnlineOnly?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
