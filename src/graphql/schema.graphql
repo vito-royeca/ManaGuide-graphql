@@ -171,7 +171,7 @@ type MGSet {
     yearSection: String!
     tcgplayerId: Int!
     cards: [MGCard!]!
-    children: [MGSet!]
+    children: [MGSet!]!
     setParent: MGSet
     setBlock: MGSetBlock
     setType: MGSetType!

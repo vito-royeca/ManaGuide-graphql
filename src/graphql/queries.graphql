@@ -86,14 +86,27 @@ fragment SectionedSets on MGSectionedSets {
 }
 
 fragment CardBasicInfo on MGCard {
-  cardID: newId
-  name
-  printedName
-  tcgplayerID: tcgplayerId
-
   artCropURL: artCropUrl
+  cardID: newId
+  manaCost
+  name
   normalURL: normalUrl
   pngURL: pngUrl
+  prices {
+    low
+    median
+    high
+    market
+    directLow
+    isFoil
+  }
+  rarity {
+    name
+  }
+  set {
+    code
+  }
+  typeLine
 }
 
 fragment CardInfo on MGCard {
@@ -118,18 +131,18 @@ fragment CardInfo on MGCard {
   isTextless
   lifeModifier
   loyalty
-  manaCost
   mtgoFoilID: mtgoFoilId
   mtgoID: mtgoId
   multiverseIDs: multiverseIds
   numberOrder
   oracleText
   power
+  printedName
   printedText
   printedTypeLine
   releasedAt
+  tcgplayerID: tcgplayerId
   toughness
-  typeLine
   artists {
     name
   }
@@ -185,15 +198,6 @@ fragment CardInfo on MGCard {
   }
   otherPrintings {
     ...CardBasicInfo
-  }
-  prices {
-    market
-  }
-  rarity {
-    name
-  }
-  set {
-    code
   }
   subtypes {
     name

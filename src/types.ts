@@ -212,7 +212,7 @@ export type MGSet = {
   __typename?: 'MGSet';
   cardCount: Scalars['Int']['output'];
   cards: Array<MGCard>;
-  children?: Maybe<Array<MGSet>>;
+  children: Array<MGSet>;
   code: Scalars['String']['output'];
   isFoilOnly: Scalars['Boolean']['output'];
   isOnlineOnly: Scalars['Boolean']['output'];
@@ -610,7 +610,7 @@ export type MGSectionedSetsResolvers<ContextType = DataSourceContext, ParentType
 export type MGSetResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGSet'] = ResolversParentTypes['MGSet']> = {
   cardCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   cards?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
-  children?: Resolver<Maybe<Array<ResolversTypes['MGSet']>>, ParentType, ContextType>;
+  children?: Resolver<Array<ResolversTypes['MGSet']>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isFoilOnly?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isOnlineOnly?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

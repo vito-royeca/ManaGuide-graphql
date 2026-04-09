@@ -5,7 +5,9 @@ import { MGSectionedSet, MGSectionedSets, MGSet, MGSets, SetByCodeInput } from "
 export class SetsUtilities {
     set = (data: any): MGSet => {
         const setData = camelcaseKeys(data, { deep: true });
-        return Array.isArray(setData) ? setData[0] : setData;
+        let set = Array.isArray(setData) ? setData[0] : setData;
+        set.children = [];
+        return set;
     }
 
     sets = (data: any[]): MGSets => {
