@@ -1,134 +1,78 @@
-// import { BatchedSQLDataSource, BatchedSQLDataSourceProps } from "@nic-jennings/sql-datasource";
-import camelcaseKeys from "camelcase-keys";
+import { BatchedSQLDataSource, BatchedSQLDataSourceProps } from "@nic-jennings/sql-datasource";
 
-import { MGSectionedSet, MGSectionedSets, MGSet, MGSets, SetByCodeInput } from "../types";
+import { MGSectionedSets, MGSet, MGSets, SetByCodeInput } from "../types";
+import { SetsUtilities } from "./SetsUtilities";
 
-export class SetsSQLDataSource /*extends BatchedSQLDataSource*/ {
-    // constructor(config: BatchedSQLDataSourceProps) {
-    //     super(config);
-    // }
+export class SetsSQLDataSource extends BatchedSQLDataSource {
+    constructor(config: BatchedSQLDataSourceProps) {
+        super(config);
+    }
 
-    // async set(input: SetByCodeInput): Promise<MGSet> {
-    //     try {
-    //         let setData: MGSet;
+    async set(input: SetByCodeInput): Promise<MGSet> {
+        try {
+            const utilities = new SetsUtilities();
+            const setsData = (await this.sets()).sets;
 
-    //         if (input.sortedBy === "name" && input.orderBy === "asc") {
-    //             const fromClause = `matv_cmset_${input.code}_${input.language}`;
-    //             const data = await this.db.query
-    //                 .select("*")
-    //                 .from(fromClause)
-    //                 .cache(10);
-    //             setData = camelcaseKeys(data, { deep: true });
-    //             console.log(setData);
-    //         } else {
-    //             const params = [input.code, input.language, input.sortedBy || "name", input.orderBy || "asc"];
-    //             const sql = "select * from selectSet(?,?,?,?)";
-    //             const data = await this.db.query
-    //                 .raw(sql, params)
-    //             const rows = data.rows && data.rows.length >= 1 ? data.rows[0] : undefined;
-    //             setData = rows ? camelcaseKeys(rows, { deep: true }) : undefined;
-    //         }
+            if (input.sortedBy === "name" && input.orderBy === "asc") {
+                const fromClause = `matv_cmset_${input.code}_${input.language}`;
+                const data = await this.db.query
+                    .select("*")
+                    .from(fromClause)
+                    .cache(10);
+                return utilities.set(data);
+            } else {
+                const params = [input.code, input.language, input.sortedBy || "name", input.orderBy || "asc"];
+                const sql = "select * from selectSet(?,?,?,?)";
+                const data = await this.db.query
+                    .raw(sql, params)
+                const setsData = data.rows && data.rows.length >= 1 ? data.rows[0] : undefined;
 
-    //         if (setData === undefined) {
-    //             throw new Error(`Set with code ${input.code} not found`);
-    //         }
-    //         setData = Array.isArray(setData) ? setData[0] : setData;
-    //         return setData;
-            
-    //     } catch (error) {
-    //         console.error("Error executing raw SQL query:", error);
-    //         throw error;
-    //     }
-    // }
+                if (setsData === undefined) {
+                    throw new Error(`Set with code ${input.code} not found`);
+                }
+                return utilities.set(setsData);
+            }
+        } catch (error) {
+            console.error("Error executing raw SQL query:", error);
+            throw error;
+        }
+    }
 
-    // async sets(): Promise<MGSets> {
-    //     const data = await this.db.query
-    //         .select("*")
-    //         .from("matv_cmsets")
-    //         .cache(10);
-    //     const setsData = camelcaseKeys(data, { deep: true });
-        
-    //     return {
-    //         count: setsData.length,
-    //         sets: setsData
-    //     };
-    // }
+    async sets(): Promise<MGSets> {
+        const utilities = new SetsUtilities();
+        const data = await this.db.query
+            .select("*")
+            .from("matv_cmsets")
+            .cache(10);
 
-    // async setsByName(): Promise<MGSectionedSets> {
-    //     const sets = (await this.sets()).sets;
-    //     const regex = /^[\p{L}]/u;
-    //     const keys = new Set(sets.flatMap( (d) => 
-    //         regex.test(d.name[0]) ? d.name[0].toUpperCase() : "#").sort()    
-    //     );
-    //     let arrays: MGSectionedSet[] = [];
+        return utilities.sets(data);
+    }
 
-    //     keys.forEach(function (item, _) {
-    //         let slice: MGSet[] = [];
+    async setsByBlock(): Promise<MGSectionedSets> {
+        const utilities = new SetsUtilities();
+        const sets = (await this.sets()).sets;
 
-    //         if (item === '#') {
-    //             slice = sets.filter(d => !regex.test(d.name[0]))
-    //         } else {
-    //             slice = sets.filter(d => d.name.toUpperCase().startsWith(item))
-    //         }
-    //         arrays.push({ count: slice.length, section: item, sets: slice });
-    //     });
+        return utilities.setsByBlock(sets);
+    }
 
-    //     return {
-    //         count: sets.length,
-    //         sections: Array.from(keys).sort(),
-    //         sectionedSets: arrays
-    //     };
-    // }
+    async setsByName(): Promise<MGSectionedSets> {
+        const utilities = new SetsUtilities();
+        const sets = (await this.sets()).sets;
 
-    // async setsByType(): Promise<MGSectionedSets> {
-    //     const sets = (await this.sets()).sets;
-    //     const keys = new Set(sets.flatMap( (d) => 
-    //         d.setType.name).sort()    
-    //     );
-    //     let arrays: MGSectionedSet[] = [];
+        return utilities.setsByName(sets);
+    }
 
-    //     keys.forEach(function (item, _) {
-    //         const slice: MGSet[] = sets.filter(d => d.setType.name === item);
-    //         arrays.push({ count: slice.length, section: item, sets: slice });
-    //     });
+    async setsByType(): Promise<MGSectionedSets> {
+        const utilities = new SetsUtilities();
+        const sets = (await this.sets()).sets;
 
-    //     return {
-    //         count: sets.length,
-    //         sections: Array.from(keys).sort(),
-    //         sectionedSets: arrays
-    //     };
-    // }
+        return utilities.setsByType(sets);
+    }
 
-    // async setsByYear(): Promise<MGSectionedSets> {
-    //     const sets = (await this.sets()).sets;
-    //     const keys = new Set(sets.flatMap( (d) => d.yearSection).sort().toReversed());
-    //     let arrays: MGSectionedSet[] = [];
+    async setsByYear(): Promise<MGSectionedSets> {
+        const utilities = new SetsUtilities();
+        const sets = (await this.sets()).sets;
 
-    //     keys.forEach(function (item, _) {
-    //         const slice: MGSet[] = sets.filter(d => d.yearSection === item);
-    //         arrays.push({ count: slice.length, section: item, sets: slice });
-    //     });
-
-    //     return {
-    //         count: sets.length,
-    //         sections: Array.from(keys).sort().toReversed(),
-    //         sectionedSets: arrays
-    //     };
-    // }
-
-    // async cardsByCode(input: SetByCodeInput): Promise<MGCard[]> {
-    //     try {
-    //         const params = [input.code, input.language, input.sortedBy || "name", input.orderBy || "asc"];
-    //         const sql = "select * from selectCards(?,?,?,?)";
-    //         const data = await this.db.query
-    //             .raw(sql, params)
-    //         const rows = data.rows && data.rows.length >= 1 ? data.rows : null;
-    //         const cardData = camelcaseKeys(rows || data, { deep: true });
-    //         return Array.isArray(cardData) ? cardData : [cardData];
-
-    //     } catch (error) {
-    //         console.error("Error executing raw SQL query:", error);
-    //         return [];
-    //     }
-    // }
+        return utilities.setsByYear(sets);
+    }
 }

@@ -1,0 +1,137 @@
+import camelcaseKeys from "camelcase-keys";
+
+import { MGSectionedSet, MGSectionedSets, MGSet, MGSets, SetByCodeInput } from "../types";
+
+export class SetsUtilities {
+    set = (data: any): MGSet => {
+        const setData = camelcaseKeys(data, { deep: true });
+        return Array.isArray(setData) ? setData[0] : setData;
+    }
+
+    sets = (data: any[]): MGSets => {
+        const setsData = camelcaseKeys(data, { deep: true });
+        let newSetsData = this.findChildren(setsData);
+        
+        return {
+            count: newSetsData.length,
+            sets: newSetsData
+        };
+    }
+
+    findChildren = (setsData: MGSet[]): MGSet[] => {
+        let newSetsData: MGSet[] = [];
+
+        setsData.forEach((set, _) => {
+            if (set.setParent === null) {
+                let currentSet = set; 
+                let setChildren: MGSet[] = [];
+
+                do {
+                    setChildren = this.filterChildren(currentSet, setsData);
+                    currentSet.children = setChildren;
+
+                    setChildren.forEach((child, _) => {
+                        const childChildren = this.filterChildren(child, setsData);
+                        child.children = childChildren;
+
+                        childChildren.forEach((grandChild, _) => {
+                            const grandChildChildren = this.filterChildren(grandChild, setsData);
+                            grandChild.children = grandChildChildren;
+                        });
+                    });
+                    currentSet = setChildren[0];
+                    
+                } while (currentSet !== undefined);
+                newSetsData.push(set);
+            }
+        });
+
+        return newSetsData;
+    }
+
+    filterChildren = (set: MGSet, setsData: MGSet[]): MGSet[] => {
+        const children = setsData.filter(d => d.setParent ? d.setParent.code === set.code : false);
+        return children;
+    }
+
+    setsByBlock = (data: any[]): MGSectionedSets => {
+        const sets = data;
+        const keys = new Set(sets.flatMap( (d) => 
+            d.setBlock ? d.setBlock.name : "").sort()    
+        );
+        let arrays: MGSectionedSet[] = [];
+
+        keys.forEach(function (item, _) {
+            const slice: MGSet[] = sets.filter(d => (d.setBlock ? d.setBlock.name : "") === item);
+            arrays.push({ count: slice.length, section: item, sets: slice });
+        });
+
+        return {
+            count: sets.length,
+            sections: Array.from(keys).sort(),
+            sectionedSets: arrays
+        };
+    }
+
+    setsByName = (data: any[]): MGSectionedSets => {
+        const sets = data;
+        const regex = /^[\p{L}]/u;
+        const keys = new Set(sets.flatMap( (d) => 
+            regex.test(d.name[0]) ? d.name[0].toUpperCase() : "#").sort()    
+        );
+        let arrays: MGSectionedSet[] = [];
+
+        keys.forEach(function (item, _) {
+            let slice: MGSet[] = [];
+
+            if (item === '#') {
+                slice = sets.filter(d => !regex.test(d.name[0]))
+            } else {
+                slice = sets.filter(d => d.name.toUpperCase().startsWith(item))
+            }
+            arrays.push({ count: slice.length, section: item, sets: slice });
+        });
+
+        return {
+            count: sets.length,
+            sections: Array.from(keys).sort(),
+            sectionedSets: arrays
+        };
+    }
+
+    setsByType = (data: any[]): MGSectionedSets => {
+        const sets = data;
+        const keys = new Set(sets.flatMap( (d) => 
+            d.setType.name).sort()    
+        );
+        let arrays: MGSectionedSet[] = [];
+
+        keys.forEach(function (item, _) {
+            const slice: MGSet[] = sets.filter(d => d.setType.name === item);
+            arrays.push({ count: slice.length, section: item, sets: slice });
+        });
+
+        return {
+            count: sets.length,
+            sections: Array.from(keys).sort(),
+            sectionedSets: arrays
+        };
+    }
+
+    setsByYear = (data: any[]): MGSectionedSets => {
+        const sets = data;
+        const keys = new Set(sets.flatMap( (d) => d.yearSection).sort().toReversed());
+        let arrays: MGSectionedSet[] = [];
+
+        keys.forEach(function (item, _) {
+            const slice: MGSet[] = sets.filter(d => d.yearSection === item);
+            arrays.push({ count: slice.length, section: item, sets: slice });
+        });
+
+        return {
+            count: sets.length,
+            sections: Array.from(keys).sort().toReversed(),
+            sectionedSets: arrays
+        };
+    }
+}

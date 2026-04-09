@@ -9,6 +9,7 @@ import { resolvers } from "./resolvers";
 import { SetsRESTDataSource } from "./datasources/SetsRESTDataSource";
 import { SetsSQLDataSource } from "./datasources/SetsSQLDataSource";
 import { CardsSQLDataSource } from "./datasources/CardsSQLDataSource";
+import { CardsRESTDataSource } from "./datasources/CardsRESTDataSource";
 
 const typeDefs = gql(
     readFileSync(path.resolve(__dirname, "./graphql/schema.graphql"), {
@@ -21,24 +22,25 @@ const typeDefs = gql(
 // export DATASOURCE_TYPE=SQL | REST
 
 function createDataSources(cache: any) {
-    // if (process.env.DATASOURCE_TYPE === "SQL") {
-    //     const knexConfig = {
-    //         client: "pg",
-    //         connection: process.env.PG_CONNECTION_STRING,
-    //     };
-    //     return {
-    //         dataSources: {
-    //             cardsDataSource: new CardsSQLDataSource({ knexConfig, cache }),
-    //             setsDataSource: new SetsSQLDataSource({ knexConfig, cache }),
-    //         },
-    //     };
-    // } else {
+    if (process.env.DATASOURCE_TYPE === "SQL") {
+        const knexConfig = {
+            client: "pg",
+            connection: process.env.PG_CONNECTION_STRING,
+        };
         return {
             dataSources: {
+                cardsDataSource: new CardsSQLDataSource({ knexConfig, cache }),
+                setsDataSource: new SetsSQLDataSource({ knexConfig, cache }),
+            },
+        };
+    } else {
+        return {
+            dataSources: {
+                cardsDataSource: new CardsRESTDataSource({ cache }),
                 setsDataSource: new SetsRESTDataSource({ cache }),
             },
         };
-    // }
+    }
 }
 
 async function startApolloServer() {

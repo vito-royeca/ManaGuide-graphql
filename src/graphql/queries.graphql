@@ -1,4 +1,52 @@
 
+query Set($input: SetByCodeInput!) {
+  set(input: $input) {
+    ...SetInfo
+    cards {
+      ...CardBasicInfo
+    }
+  }
+}
+
+query Sets {
+  sets {
+    count
+    sets {
+      ...SetInfo
+    }
+  }  
+}
+
+query SetsByBlock {
+  setsByBlock {
+    ...SectionedSets
+  }  
+}
+
+query SetsByName {
+  setsByName {
+    ...SectionedSets
+  }  
+}
+
+query SetsByType {
+  setsByType {
+    ...SectionedSets
+  }  
+}
+
+query SetsByYear {
+  setsByYear {
+    ...SectionedSets
+  }  
+}
+
+query Card($id: String!) {
+  card(id: $id) {
+    ...CardInfo
+  }
+}
+
 fragment SetBasicInfo on MGSet {
   code
   name
@@ -159,53 +207,5 @@ fragment CardInfo on MGCard {
   watermark {
     name
   }
-}
-
-query Card($id: String!) {
-  card(id: $id) {
-    ...CardInfo
-  }
-}
-
-query Set($input: SetByCodeInput!) {
-  set(input: $input) {
-    ...SetInfo
-    cards {
-      ...CardBasicInfo
-    }
-  }
-}
-
-query Sets {
-  sets {
-    count
-    sets {
-      ...SetInfo
-    }
-  }  
-}
-
-query SetsByBlock {
-  setsByBlock {
-    ...SectionedSets
-  }  
-}
-
-query SetsByName {
-  setsByName {
-    ...SectionedSets
-  }  
-}
-
-query SetsByType {
-  setsByType {
-    ...SectionedSets
-  }  
-}
-
-query SetsByYear {
-  setsByYear {
-    ...SectionedSets
-  }  
 }
 

@@ -75,7 +75,7 @@ export type MGCard = {
   otherPrintings: Array<MGCard>;
   pngUrl?: Maybe<Scalars['String']['output']>;
   power?: Maybe<Scalars['String']['output']>;
-  prices: Array<MGCardPrice>;
+  prices?: Maybe<Array<MGCardPrice>>;
   printedName?: Maybe<Scalars['String']['output']>;
   printedText?: Maybe<Scalars['String']['output']>;
   printedTypeLine?: Maybe<Scalars['String']['output']>;
@@ -492,7 +492,7 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   otherPrintings?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
   pngUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   power?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  prices?: Resolver<Array<ResolversTypes['MGCardPrice']>, ParentType, ContextType>;
+  prices?: Resolver<Maybe<Array<ResolversTypes['MGCardPrice']>>, ParentType, ContextType>;
   printedName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   printedText?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   printedTypeLine?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
