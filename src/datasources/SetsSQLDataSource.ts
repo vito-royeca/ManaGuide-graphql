@@ -4,6 +4,8 @@ import { MGSectionedSets, MGSet, MGSets, SetByCodeInput } from "../types";
 import { SetsUtilities } from "./SetsUtilities";
 
 export class SetsSQLDataSource extends BatchedSQLDataSource {
+    utilities = new SetsUtilities();
+
     constructor(config: BatchedSQLDataSourceProps) {
         super(config);
     }
@@ -11,7 +13,6 @@ export class SetsSQLDataSource extends BatchedSQLDataSource {
     async set(input: SetByCodeInput): Promise<MGSet> {
         try {
             const utilities = new SetsUtilities();
-            const setsData = (await this.sets()).sets;
 
             if (input.sortedBy === "name" && input.orderBy === "asc") {
                 const fromClause = `matv_cmset_${input.code}_${input.language}`;
@@ -39,40 +40,35 @@ export class SetsSQLDataSource extends BatchedSQLDataSource {
     }
 
     async sets(): Promise<MGSets> {
-        const utilities = new SetsUtilities();
         const data = await this.db.query
             .select("*")
             .from("matv_cmsets")
             .cache(10);
-
-        return utilities.sets(data);
+        
+        return this.utilities.sets(data);
     }
 
     async setsByBlock(): Promise<MGSectionedSets> {
-        const utilities = new SetsUtilities();
         const sets = (await this.sets()).sets;
 
-        return utilities.setsByBlock(sets);
+        return this.utilities.setsByBlock(sets);
     }
 
     async setsByName(): Promise<MGSectionedSets> {
-        const utilities = new SetsUtilities();
         const sets = (await this.sets()).sets;
 
-        return utilities.setsByName(sets);
+        return this.utilities.setsByName(sets);
     }
 
     async setsByType(): Promise<MGSectionedSets> {
-        const utilities = new SetsUtilities();
         const sets = (await this.sets()).sets;
 
-        return utilities.setsByType(sets);
+        return this.utilities.setsByType(sets);
     }
 
     async setsByYear(): Promise<MGSectionedSets> {
-        const utilities = new SetsUtilities();
         const sets = (await this.sets()).sets;
 
-        return utilities.setsByYear(sets);
+        return this.utilities.setsByYear(sets);
     }
 }

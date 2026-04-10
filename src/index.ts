@@ -20,6 +20,9 @@ const typeDefs = gql(
 // In terminal, run:
 // export PG_CONNECTION_STRING=postgres://[user]:[password]@[host]:[port]/[database]
 // export DATASOURCE_TYPE=SQL | REST
+// export NODE_ENV=qa |development | production
+// export PORT=4000
+// or set these environment variables in a .env file and use dotenv to load them
 
 function createDataSources(cache: any) {
     if (process.env.DATASOURCE_TYPE === "SQL") {
@@ -47,6 +50,7 @@ async function startApolloServer() {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
+        introspection: process.env.NODE_ENV !== "production",
     });
 
     const { url } = await startStandaloneServer(server, {
@@ -58,6 +62,7 @@ async function startApolloServer() {
                 dataSources
             };
         },
+        listen: { port: Number(process.env.PORT) || 4000 },
     });
   
     console.log(`
