@@ -1,0 +1,34 @@
+[
+    {
+        "title": "MTG Goldfish",
+        "url": "https://www.mtggoldfish.com/feed.rss"
+    },
+    {
+        "title": "MTGAzone",
+        "url": "https://mtgazone.com/feed/"
+    },
+    {
+        "title": "HotC",
+        "url": "https://www.hipstersofthecoast.com/feed/"
+    },
+    {
+        "title": "FacetoFace",
+        "url": "https://magic.facetofacegames.com/feed/"
+    },
+    {
+        "title": "EDHREC",
+        "url": "https://edhrec.com/articles//feed"
+    },
+    {
+        "title": "Card Kingdom Blog",
+        "url": "https://blog.cardkingdom.com/feed/"
+    },
+    {
+        "title": "SCG",
+        "url": "https://articles.starcitygames.com/feed/"
+    },
+    {
+        "title": "Draftism",
+        "url": "https://draftsim.com//feed"
+    }
+]

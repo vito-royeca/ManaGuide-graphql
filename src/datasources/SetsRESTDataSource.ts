@@ -18,12 +18,6 @@ export class SetsRESTDataSource extends RESTDataSource {
         return this.utilities.sets(data);
     }
 
-    async setsByBlock(): Promise<MGSectionedSets> {
-        const sets = (await this.sets()).sets;
-
-        return this.utilities.setsByBlock(sets);
-    }
-
     async setsByName(): Promise<MGSectionedSets> {
         const sets = (await this.sets()).sets;
 

@@ -158,18 +158,20 @@ type MGRuling {
 }
 
 type MGSet {
-    code: String!
-    name: String!
-    releaseDate: String!
+    bigLogoURL: String
     cardCount: Int!
+    code: String!
     isFoilOnly: Boolean!
     isOnlineOnly: Boolean!
-    logoCode: String!
-    mtgoCode: String
     keyruneUnicode: String!
     keyruneClass: String!
-    yearSection: String!
+    logoCode: String
+    mtgoCode: String
+    name: String!
+    releaseDate: String!
+    smallLogoURL: String
     tcgplayerId: Int!
+    yearSection: String!
     cards: [MGCard!]!
     children: [MGSet!]!
     setParent: MGSet
@@ -191,6 +193,10 @@ type MGWatermark {
     name: String!
 }
 
+type MGFeed {
+    title: String!
+    url: String!
+}
 
 """
 Results
@@ -218,6 +224,11 @@ type MGCards {
     cards: [MGCard!]!
 }
 
+type MGFeeds {
+    count: Int!
+    feeds: [MGFeed!]!
+}
+
 """
 Inputs
 """
@@ -237,10 +248,11 @@ type Query {
     set(input: SetByCodeInput): MGSet
     sets: MGSets
     setTypes: MGSetType
-    setsByBlock: MGSectionedSets
     setsByName: MGSectionedSets
     setsByType: MGSectionedSets
     setsByYear: MGSectionedSets
 
     card(id: String!): MGCard
+
+    feeds: MGFeeds
 }

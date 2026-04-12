@@ -1,15 +1,19 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 
+import dotenv from "dotenv";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { gql } from "graphql-tag";
 
+import { CardsSQLDataSource } from "./datasources/CardsSQLDataSource";
+import { CardsRESTDataSource } from "./datasources/CardsRESTDataSource";
+import { FeedsDataSource } from "./datasources/FeedsDataSource";
 import { resolvers } from "./resolvers";
 import { SetsRESTDataSource } from "./datasources/SetsRESTDataSource";
 import { SetsSQLDataSource } from "./datasources/SetsSQLDataSource";
-import { CardsSQLDataSource } from "./datasources/CardsSQLDataSource";
-import { CardsRESTDataSource } from "./datasources/CardsRESTDataSource";
+
+dotenv.config();
 
 const typeDefs = gql(
     readFileSync(path.resolve(__dirname, "./graphql/schema.graphql"), {
@@ -17,22 +21,17 @@ const typeDefs = gql(
     })
 );
 
-// In terminal, run:
-// export PG_CONNECTION_STRING=postgres://[user]:[password]@[host]:[port]/[database]
-// export DATASOURCE_TYPE=SQL | REST
-// export NODE_ENV=qa |development | production
-// export PORT=4000
-// or set these environment variables in a .env file and use dotenv to load them
-
 function createDataSources(cache: any) {
     if (process.env.DATASOURCE_TYPE === "SQL") {
         const knexConfig = {
             client: "pg",
-            connection: process.env.PG_CONNECTION_STRING,
+            // postgres://[user]:[password]@[host]:[port]/[database]
+            connection: process.env.PG_CONNECTION_STRING
         };
         return {
             dataSources: {
                 cardsDataSource: new CardsSQLDataSource({ knexConfig, cache }),
+                feedsDataSource: new FeedsDataSource(),
                 setsDataSource: new SetsSQLDataSource({ knexConfig, cache }),
             },
         };
@@ -40,6 +39,7 @@ function createDataSources(cache: any) {
         return {
             dataSources: {
                 cardsDataSource: new CardsRESTDataSource({ cache }),
+                feedsDataSource: new FeedsDataSource(),
                 setsDataSource: new SetsRESTDataSource({ cache }),
             },
         };

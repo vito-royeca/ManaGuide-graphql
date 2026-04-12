@@ -138,6 +138,18 @@ export type MGComponent = {
   name: Scalars['String']['output'];
 };
 
+export type MGFeed = {
+  __typename?: 'MGFeed';
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
+};
+
+export type MGFeeds = {
+  __typename?: 'MGFeeds';
+  count: Scalars['Int']['output'];
+  feeds: Array<MGFeed>;
+};
+
 export type MGFormat = {
   __typename?: 'MGFormat';
   name: Scalars['String']['output'];
@@ -210,6 +222,7 @@ export type MGSectionedSets = {
 
 export type MGSet = {
   __typename?: 'MGSet';
+  bigLogoURL?: Maybe<Scalars['String']['output']>;
   cardCount: Scalars['Int']['output'];
   cards: Array<MGCard>;
   children: Array<MGSet>;
@@ -219,13 +232,14 @@ export type MGSet = {
   keyruneClass: Scalars['String']['output'];
   keyruneUnicode: Scalars['String']['output'];
   languages: Array<MGLanguage>;
-  logoCode: Scalars['String']['output'];
+  logoCode?: Maybe<Scalars['String']['output']>;
   mtgoCode?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   releaseDate: Scalars['String']['output'];
   setBlock?: Maybe<MGSetBlock>;
   setParent?: Maybe<MGSet>;
   setType: MGSetType;
+  smallLogoURL?: Maybe<Scalars['String']['output']>;
   tcgplayerId: Scalars['Int']['output'];
   yearSection: Scalars['String']['output'];
 };
@@ -257,10 +271,10 @@ export type MGWatermark = {
 export type Query = {
   __typename?: 'Query';
   card?: Maybe<MGCard>;
+  feeds?: Maybe<MGFeeds>;
   set?: Maybe<MGSet>;
   setTypes?: Maybe<MGSetType>;
   sets?: Maybe<MGSets>;
-  setsByBlock?: Maybe<MGSectionedSets>;
   setsByName?: Maybe<MGSectionedSets>;
   setsByType?: Maybe<MGSectionedSets>;
   setsByYear?: Maybe<MGSectionedSets>;
@@ -373,6 +387,8 @@ export type ResolversTypes = {
   MGCards: ResolverTypeWrapper<MGCards>;
   MGColor: ResolverTypeWrapper<MGColor>;
   MGComponent: ResolverTypeWrapper<MGComponent>;
+  MGFeed: ResolverTypeWrapper<MGFeed>;
+  MGFeeds: ResolverTypeWrapper<MGFeeds>;
   MGFormat: ResolverTypeWrapper<MGFormat>;
   MGFrame: ResolverTypeWrapper<MGFrame>;
   MGFrameEffect: ResolverTypeWrapper<MGFrameEffect>;
@@ -410,6 +426,8 @@ export type ResolversParentTypes = {
   MGCards: MGCards;
   MGColor: MGColor;
   MGComponent: MGComponent;
+  MGFeed: MGFeed;
+  MGFeeds: MGFeeds;
   MGFormat: MGFormat;
   MGFrame: MGFrame;
   MGFrameEffect: MGFrameEffect;
@@ -548,6 +566,16 @@ export type MGComponentResolvers<ContextType = DataSourceContext, ParentType ext
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
+export type MGFeedResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGFeed'] = ResolversParentTypes['MGFeed']> = {
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type MGFeedsResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGFeeds'] = ResolversParentTypes['MGFeeds']> = {
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  feeds?: Resolver<Array<ResolversTypes['MGFeed']>, ParentType, ContextType>;
+};
+
 export type MGFormatResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGFormat'] = ResolversParentTypes['MGFormat']> = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
@@ -608,6 +636,7 @@ export type MGSectionedSetsResolvers<ContextType = DataSourceContext, ParentType
 };
 
 export type MGSetResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGSet'] = ResolversParentTypes['MGSet']> = {
+  bigLogoURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cardCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   cards?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
   children?: Resolver<Array<ResolversTypes['MGSet']>, ParentType, ContextType>;
@@ -617,13 +646,14 @@ export type MGSetResolvers<ContextType = DataSourceContext, ParentType extends R
   keyruneClass?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   keyruneUnicode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   languages?: Resolver<Array<ResolversTypes['MGLanguage']>, ParentType, ContextType>;
-  logoCode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  logoCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   mtgoCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   releaseDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   setBlock?: Resolver<Maybe<ResolversTypes['MGSetBlock']>, ParentType, ContextType>;
   setParent?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType>;
   setType?: Resolver<ResolversTypes['MGSetType'], ParentType, ContextType>;
+  smallLogoURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tcgplayerId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   yearSection?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
@@ -648,10 +678,10 @@ export type MGWatermarkResolvers<ContextType = DataSourceContext, ParentType ext
 
 export type QueryResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   card?: Resolver<Maybe<ResolversTypes['MGCard']>, ParentType, ContextType, RequireFields<QuerycardArgs, 'id'>>;
+  feeds?: Resolver<Maybe<ResolversTypes['MGFeeds']>, ParentType, ContextType>;
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetArgs>>;
   setTypes?: Resolver<Maybe<ResolversTypes['MGSetType']>, ParentType, ContextType>;
   sets?: Resolver<Maybe<ResolversTypes['MGSets']>, ParentType, ContextType>;
-  setsByBlock?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
   setsByName?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
   setsByType?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
   setsByYear?: Resolver<Maybe<ResolversTypes['MGSectionedSets']>, ParentType, ContextType>;
@@ -669,6 +699,8 @@ export type Resolvers<ContextType = DataSourceContext> = {
   MGCards?: MGCardsResolvers<ContextType>;
   MGColor?: MGColorResolvers<ContextType>;
   MGComponent?: MGComponentResolvers<ContextType>;
+  MGFeed?: MGFeedResolvers<ContextType>;
+  MGFeeds?: MGFeedsResolvers<ContextType>;
   MGFormat?: MGFormatResolvers<ContextType>;
   MGFrame?: MGFrameResolvers<ContextType>;
   MGFrameEffect?: MGFrameEffectResolvers<ContextType>;

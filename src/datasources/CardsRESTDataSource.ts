@@ -1,6 +1,6 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
-import { MGCard, MGCards, SetByCodeInput } from "../types";
+import { MGCard } from "../types";
 import { CardsUtilities } from "./CardsUtilities";
 
 export class CardsRESTDataSource extends RESTDataSource {

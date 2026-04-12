@@ -3,15 +3,20 @@ import camelcaseKeys from "camelcase-keys";
 import { MGSectionedSet, MGSectionedSets, MGSet, MGSets, SetByCodeInput } from "../types";
 
 export class SetsUtilities {
+
     set = (data: any): MGSet => {
         const setData = camelcaseKeys(data, { deep: true });
         let set = Array.isArray(setData) ? setData[0] : setData;
+        this.format(set);
         set.children = [];
         return set;
     }
 
     sets = (data: any[]): MGSets => {
-        const setsData = camelcaseKeys(data, { deep: true });
+        let setsData = camelcaseKeys(data, { deep: true });
+        setsData.forEach((set, _) => {
+            this.format(set);
+        });
         let newSetsData = this.findChildren(setsData);
         
         return {
@@ -56,25 +61,25 @@ export class SetsUtilities {
         return children;
     }
 
-    setsByBlock = (data: any[]): MGSectionedSets => {
-        const sets = data;
-        const keys = new Set(sets.flatMap( (d) => 
-            d.setBlock ? d.setBlock.name : "").sort()    
-        );
-        let arrays: MGSectionedSet[] = [];
+    format = (set: MGSet): MGSet => {
+        if (set.logoCode === null) {
+            set.smallLogoURL = `${process.env.IMAGE_SERVER_URL}/images/sets/default_small.png`;
+            set.bigLogoURL = `${process.env.IMAGE_SERVER_URL}/images/sets/default_big.png`;
+        } else {
+            set.smallLogoURL = `${process.env.IMAGE_SERVER_URL}/images/sets/${set.logoCode}_small.png`;
+            set.bigLogoURL = `${process.env.IMAGE_SERVER_URL}/images/sets/${set.logoCode}_big.png`;
+        }
 
-        keys.forEach(function (item, _) {
-            const slice: MGSet[] = sets.filter(d => (d.setBlock ? d.setBlock.name : "") === item);
-            arrays.push({ count: slice.length, section: item, sets: slice });
-        });
+        if (set.releaseDate !== null) {
+            const year = new Date(set.releaseDate).getFullYear();
+            set.yearSection = year.toString();
+        } else {
+            set.yearSection = "Unknown";
+        }
 
-        return {
-            count: sets.length,
-            sections: Array.from(keys).sort(),
-            sectionedSets: arrays
-        };
+        return set;
     }
-
+    
     setsByName = (data: any[]): MGSectionedSets => {
         const sets = data;
         const regex = /^[\p{L}]/u;

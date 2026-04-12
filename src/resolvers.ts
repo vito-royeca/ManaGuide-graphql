@@ -11,9 +11,6 @@ export const resolvers: Resolvers = {
     sets: (_, __, { dataSources }) => {
       return dataSources.setsDataSource.sets();
     },
-    setsByBlock: (_, __, { dataSources }) => {
-      return dataSources.setsDataSource.setsByBlock();
-    },
     setsByName: (_, __, { dataSources }) => {
       return dataSources.setsDataSource.setsByName();
     },
@@ -26,6 +23,10 @@ export const resolvers: Resolvers = {
     
     card: (_, { id }, { dataSources }) => {
       return dataSources.cardsDataSource.card(id);
+    },
+
+    feeds: (_, __, { dataSources }) => {
+      return dataSources.feedsDataSource.feeds();
     },
   }
 };
