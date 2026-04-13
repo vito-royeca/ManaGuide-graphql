@@ -82,10 +82,32 @@ export class SetsUtilities {
                 if (card.newId !== null && card.newId !== undefined) {
                     const array = card.newId.split("_")
                     const number = array.length > 1 ? array[array.length - 1] : "";
-                    console.log("id:" + card.newId + ", number: " + number);
                     card.artCropUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/art_crop.jpg`;
                     card.normalUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/normal.jpg`;
                     card.pngUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/png.png`;
+                }
+                card.displayName = card.language?.code === "en" ? 
+                    card.name : 
+                    (card.printedName !== null && card.printedName !== undefined ? card.printedName : card.name);
+                
+                if (set.code === "tsb") {
+                    card.keyruneColor = "652978"; // purple
+                } else {
+                    if (card.rarity?.name === "Common") {
+                        card.keyruneColor = "1A1718"; // black
+                    } else if (card.rarity?.name === "Uncommon") {
+                        card.keyruneColor = "707883"; // gray
+                    } else if (card.rarity?.name === "Rare") {
+                        card.keyruneColor = "A58E4A"; // gold
+                    } else if (card.rarity?.name === "Mythic") {
+                        card.keyruneColor = "BF4427"; // red
+                    } else if (card.rarity?.name === "Special") {
+                        card.keyruneColor = "BF4427"; // red
+                    } else if (card.rarity?.name === "Timeshifted") {
+                        card.keyruneColor = "652978"; // purple
+                    } else if (card.rarity?.name === "Basic Land") {
+                        card.keyruneColor = "000000"; // black
+                    }
                 }
             });
         }
@@ -93,6 +115,38 @@ export class SetsUtilities {
         return set;
     }
     
+    // public var keyruneColor: UIColor {
+    //     get {
+    //         guard let set = set,
+    //             let rarity = rarity else {
+    //             return .black
+    //         }
+
+    //         var color: UIColor?
+
+    //         if set.code == "tsb" {
+    //             color = UIColor(hex: "652978") // purple
+    //         } else {
+    //             if rarity.name == "Common" {
+    //                 color = UIColor(hex: "1A1718")
+    //             } else if rarity.name == "Uncommon" {
+    //                 color = UIColor(hex: "707883")
+    //             } else if rarity.name == "Rare" {
+    //                 color = UIColor(hex: "A58E4A")
+    //             } else if rarity.name == "Mythic" {
+    //                 color = UIColor(hex: "BF4427")
+    //             } else if rarity.name == "Special" {
+    //                 color = UIColor(hex: "BF4427")
+    //             } else if rarity.name == "Timeshifted" {
+    //                 color = UIColor(hex: "652978")
+    //             } else if rarity.name == "Basic Land" {
+    //                 color = UIColor(hex: "000000")
+    //             }
+    //         }
+
+    //         return color ?? .black
+    //     }
+    // }
     setsByName = (data: any[]): MGSectionedSets => {
         const sets = data;
         const regex = /^[\p{L}]/u;

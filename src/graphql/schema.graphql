@@ -17,6 +17,7 @@ type MGCard {
     artCropUrl: String
     cmc: Int!
     collectorNumber: String!
+    displayName: String!
     faceOrder: Int!
     flavorText: String
     handModifier: String
@@ -32,6 +33,7 @@ type MGCard {
     isReserved: Boolean!
     isStorySpotlight: Boolean!
     isTextless: Boolean!
+    keyruneColor: String
     lifeModifier: String
     loyalty: String
     manaCost: String

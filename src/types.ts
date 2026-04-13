@@ -39,6 +39,7 @@ export type MGCard = {
   colorIndicators: Array<MGColor>;
   colors: Array<MGColor>;
   componentParts: Array<MGCardComponent>;
+  displayName: Scalars['String']['output'];
   faceOrder: Scalars['Int']['output'];
   faces: Array<MGCard>;
   flavorText?: Maybe<Scalars['String']['output']>;
@@ -58,6 +59,7 @@ export type MGCard = {
   isReserved: Scalars['Boolean']['output'];
   isStorySpotlight: Scalars['Boolean']['output'];
   isTextless: Scalars['Boolean']['output'];
+  keyruneColor?: Maybe<Scalars['String']['output']>;
   language?: Maybe<MGLanguage>;
   layout?: Maybe<MGLayout>;
   lifeModifier?: Maybe<Scalars['String']['output']>;
@@ -474,6 +476,7 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   colorIndicators?: Resolver<Array<ResolversTypes['MGColor']>, ParentType, ContextType>;
   colors?: Resolver<Array<ResolversTypes['MGColor']>, ParentType, ContextType>;
   componentParts?: Resolver<Array<ResolversTypes['MGCardComponent']>, ParentType, ContextType>;
+  displayName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   faceOrder?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   faces?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
   flavorText?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -493,6 +496,7 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   isReserved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isStorySpotlight?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isTextless?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  keyruneColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   language?: Resolver<Maybe<ResolversTypes['MGLanguage']>, ParentType, ContextType>;
   layout?: Resolver<Maybe<ResolversTypes['MGLayout']>, ParentType, ContextType>;
   lifeModifier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
