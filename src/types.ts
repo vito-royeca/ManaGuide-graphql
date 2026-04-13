@@ -58,7 +58,7 @@ export type MGCard = {
   isReserved: Scalars['Boolean']['output'];
   isStorySpotlight: Scalars['Boolean']['output'];
   isTextless: Scalars['Boolean']['output'];
-  languages?: Maybe<MGLanguage>;
+  language?: Maybe<MGLanguage>;
   layout?: Maybe<MGLayout>;
   lifeModifier?: Maybe<Scalars['String']['output']>;
   loyalty?: Maybe<Scalars['String']['output']>;
@@ -170,7 +170,7 @@ export type MGFrameEffect = {
 export type MGLanguage = {
   __typename?: 'MGLanguage';
   code: Scalars['String']['output'];
-  displayCode: Scalars['String']['output'];
+  displayCode?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
 };
 
@@ -289,14 +289,14 @@ export type QuerycardArgs = {
 
 /** Queries */
 export type QuerysetArgs = {
-  input?: InputMaybe<SetByCodeInput>;
+  input?: InputMaybe<SetByIDInput>;
 };
 
 /** Inputs */
-export type SetByCodeInput = {
-  code: Scalars['String']['input'];
-  language: Scalars['String']['input'];
+export type SetByIDInput = {
+  languageID: Scalars['String']['input'];
   orderBy?: InputMaybe<Scalars['String']['input']>;
+  setID: Scalars['String']['input'];
   sortedBy?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -406,7 +406,7 @@ export type ResolversTypes = {
   MGSets: ResolverTypeWrapper<MGSets>;
   MGWatermark: ResolverTypeWrapper<MGWatermark>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
-  SetByCodeInput: SetByCodeInput;
+  SetByIDInput: SetByIDInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 };
 
@@ -445,7 +445,7 @@ export type ResolversParentTypes = {
   MGSets: MGSets;
   MGWatermark: MGWatermark;
   Query: Record<PropertyKey, never>;
-  SetByCodeInput: SetByCodeInput;
+  SetByIDInput: SetByIDInput;
   String: Scalars['String']['output'];
 };
 
@@ -493,7 +493,7 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   isReserved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isStorySpotlight?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isTextless?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  languages?: Resolver<Maybe<ResolversTypes['MGLanguage']>, ParentType, ContextType>;
+  language?: Resolver<Maybe<ResolversTypes['MGLanguage']>, ParentType, ContextType>;
   layout?: Resolver<Maybe<ResolversTypes['MGLayout']>, ParentType, ContextType>;
   lifeModifier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   loyalty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -592,7 +592,7 @@ export type MGFrameEffectResolvers<ContextType = DataSourceContext, ParentType e
 
 export type MGLanguageResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGLanguage'] = ResolversParentTypes['MGLanguage']> = {
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  displayCode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  displayCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 

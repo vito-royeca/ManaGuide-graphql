@@ -62,7 +62,7 @@ type MGCard {
     formatLegalities: [MGCardFormatLegality!]!
     frame: MGFrame
     frameEffects: [MGFrameEffect!]!
-    languages: MGLanguage
+    language: MGLanguage
     layout: MGLayout
     otherLanguages: [MGCard!]!
     otherPrintings: [MGCard!]!
@@ -126,7 +126,7 @@ type MGFrameEffect {
 
 type MGLanguage {
     code: String!
-    displayCode: String!
+    displayCode: String
     name: String!
 }
 
@@ -233,9 +233,9 @@ type MGFeeds {
 Inputs
 """
 
-input SetByCodeInput {
-  code: String!
-  language: String!
+input SetByIDInput {
+  setID: String!
+  languageID: String!
   sortedBy: String
   orderBy: String
 }
@@ -245,7 +245,7 @@ Queries
 """
 
 type Query {
-    set(input: SetByCodeInput): MGSet
+    set(input: SetByIDInput): MGSet
     sets: MGSets
     setTypes: MGSetType
     setsByName: MGSectionedSets

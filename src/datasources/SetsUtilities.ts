@@ -1,13 +1,13 @@
 import camelcaseKeys from "camelcase-keys";
 
-import { MGSectionedSet, MGSectionedSets, MGSet, MGSets, SetByCodeInput } from "../types";
+import { MGSectionedSet, MGSectionedSets, MGSet, MGSets, SetByIDInput } from "../types";
 
 export class SetsUtilities {
 
-    set = (data: any): MGSet => {
+    set = (data: any, language = "en"): MGSet => {
         const setData = camelcaseKeys(data, { deep: true });
         let set = Array.isArray(setData) ? setData[0] : setData;
-        this.format(set);
+        this.format(set, language);
         set.children = [];
         return set;
     }
@@ -61,7 +61,7 @@ export class SetsUtilities {
         return children;
     }
 
-    format = (set: MGSet): MGSet => {
+    format = (set: MGSet, language = "en"): MGSet => {
         if (set.logoCode === null) {
             set.smallLogoURL = `${process.env.IMAGE_SERVER_URL}/images/sets/default_small.png`;
             set.bigLogoURL = `${process.env.IMAGE_SERVER_URL}/images/sets/default_big.png`;
@@ -75,6 +75,19 @@ export class SetsUtilities {
             set.yearSection = year.toString();
         } else {
             set.yearSection = "Unknown";
+        }
+
+        if (set.cards !== undefined && set.cards !== null) {
+            set.cards.forEach((card, _) => {
+                if (card.newId !== null && card.newId !== undefined) {
+                    const array = card.newId.split("_")
+                    const number = array.length > 1 ? array[array.length - 1] : "";
+                    console.log("id:" + card.newId + ", number: " + number);
+                    card.artCropUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/art_crop.jpg`;
+                    card.normalUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/normal.jpg`;
+                    card.pngUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/png.png`;
+                }
+            });
         }
 
         return set;

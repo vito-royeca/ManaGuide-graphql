@@ -1,15 +1,15 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
-import { MGSectionedSets, MGSet, MGSets, SetByCodeInput } from "../types";
+import { MGSectionedSets, MGSet, MGSets, SetByIDInput } from "../types";
 import { SetsUtilities } from "./SetsUtilities";
 
 export class SetsRESTDataSource extends RESTDataSource {
     baseURL = "https://managuideapp.com/";
     utilities = new SetsUtilities();
     
-    async set(input: SetByCodeInput): Promise<MGSet> {
-        const data = await this.get<MGSet>(`set/${input.code}/en?json=true&displayAs=image&sortedBy=${input.sortedBy || "name"}&orderBy=${input.orderBy || "asc"}`);
-        return this.utilities.set(data);
+    async set(input: SetByIDInput): Promise<MGSet> {
+        const data = await this.get<MGSet>(`set/${input.setID}/${input.languageID}?json=true&displayAs=image&sortedBy=${input.sortedBy || "name"}&orderBy=${input.orderBy || "asc"}`);
+        return this.utilities.set(data, input.languageID);
     }
 
     async sets(): Promise<MGSets> {
