@@ -34,12 +34,12 @@ export type MGCard = {
   artCropUrl?: Maybe<Scalars['String']['output']>;
   artists: Array<MGArtist>;
   cmc: Scalars['Int']['output'];
-  collectorNumber: Scalars['String']['output'];
+  collectorNumber?: Maybe<Scalars['String']['output']>;
   colorIdentities: Array<MGColor>;
   colorIndicators: Array<MGColor>;
   colors: Array<MGColor>;
   componentParts: Array<MGCardComponent>;
-  displayName: Scalars['String']['output'];
+  displayName?: Maybe<Scalars['String']['output']>;
   faceOrder: Scalars['Int']['output'];
   faces: Array<MGCard>;
   flavorText?: Maybe<Scalars['String']['output']>;
@@ -85,7 +85,7 @@ export type MGCard = {
   releasedAt: Scalars['DateTime']['output'];
   set?: Maybe<MGSet>;
   subtypes: Array<MGCardType>;
-  supertypes: Array<MGCardType>;
+  supertypes?: Maybe<Array<MGCardType>>;
   tcgplayerId?: Maybe<Scalars['Int']['output']>;
   toughness?: Maybe<Scalars['String']['output']>;
   typeLine?: Maybe<Scalars['String']['output']>;
@@ -471,12 +471,12 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   artCropUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   artists?: Resolver<Array<ResolversTypes['MGArtist']>, ParentType, ContextType>;
   cmc?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  collectorNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  collectorNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   colorIdentities?: Resolver<Array<ResolversTypes['MGColor']>, ParentType, ContextType>;
   colorIndicators?: Resolver<Array<ResolversTypes['MGColor']>, ParentType, ContextType>;
   colors?: Resolver<Array<ResolversTypes['MGColor']>, ParentType, ContextType>;
   componentParts?: Resolver<Array<ResolversTypes['MGCardComponent']>, ParentType, ContextType>;
-  displayName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   faceOrder?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   faces?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
   flavorText?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -522,7 +522,7 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   releasedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType>;
   subtypes?: Resolver<Array<ResolversTypes['MGCardType']>, ParentType, ContextType>;
-  supertypes?: Resolver<Array<ResolversTypes['MGCardType']>, ParentType, ContextType>;
+  supertypes?: Resolver<Maybe<Array<ResolversTypes['MGCardType']>>, ParentType, ContextType>;
   tcgplayerId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   toughness?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   typeLine?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

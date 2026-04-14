@@ -16,8 +16,8 @@ type MGCard {
     arenaId: String
     artCropUrl: String
     cmc: Int!
-    collectorNumber: String!
-    displayName: String!
+    collectorNumber: String
+    displayName: String
     faceOrder: Int!
     flavorText: String
     handModifier: String
@@ -72,7 +72,7 @@ type MGCard {
     rarity: MGRarity
     set: MGSet
     subtypes: [MGCardType!]!
-    supertypes: [MGCardType!]!
+    supertypes: [MGCardType!]
     variations: [MGCard!]!
     watermark: MGWatermark
 }
