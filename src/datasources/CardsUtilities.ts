@@ -1,5 +1,7 @@
 import camelcaseKeys from "camelcase-keys";
 
+import fs  from "fs";
+
 import { MGCard, MGCards, MGSet } from "../types";
 
 export class CardsUtilities {
@@ -11,14 +13,8 @@ export class CardsUtilities {
     }
 
     formatCard = (card: MGCard, set: MGSet, language = "en"): MGCard => {
-        if (card.newId !== null && card.newId !== undefined) {
-            const array = card.newId.split("_")
-            const number = array.length == 3 ? array[2] : `${array[2]}_${array[3]}`;
+        this.updateImageURLs(card, set, language);
 
-            card.artCropUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/art_crop.jpg`;
-            card.normalUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/normal.jpg`;
-            card.pngUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/png.png`;
-        }
         card.displayName = card.language?.code === "en" ? 
             card.name : 
             (card.printedName !== null && card.printedName !== undefined ? card.printedName : card.name);
@@ -62,6 +58,95 @@ export class CardsUtilities {
         }
 
         return card;
+    }
+
+    updateImageURLs = (card: MGCard, set: MGSet, language = "en"): MGCard => {
+        if (card.newId !== null && card.newId !== undefined) {
+            const array = card.newId.split("_")
+            const number = array.length == 3 ? array[2] : `${array[2]}_${array[3]}`;
+
+            card.artCropUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/art_crop.jpg`;
+            card.normalUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/normal.jpg`;
+            card.pngUrl = `${process.env.IMAGE_SERVER_URL}/images/cards/${set.code}/${language}/${number}/png.png`;
+        }
+
+        // if (card.faces !== undefined && card.faces !== null) {
+
+        // } else {
+
+        // }
+
+        return card;
+    }
+
+    replaceImageURLs = (card: MGCard, faces: MGCard[]) => {
+        const soonUrl    = "/images/cards/soon.jpg"
+
+        try {
+            if (faces != null && faces.length > 0) {
+                for (var i=0; i<faces.length; i++) {
+                    let artCropUrlOrig = "/images/cards/" + this.newId2Path(card.newId) + "/art_crop.jpg"
+                    let normalUrlOrig  = "/images/cards/" + this.newId2Path(card.newId) + "/normal.jpg"
+                    let pngUrlOrig     = "/images/cards/" + this.newId2Path(card.newId) + "/png.png"
+
+                    let artCropUrl = "/images/cards/" + this.newId2Path(faces[i].newId) + "/art_crop.jpg"
+                    let normalUrl  = "/images/cards/" + this.newId2Path(faces[i].newId) + "/normal.jpg"
+                    let pngUrl     = "/images/cards/" + this.newId2Path(faces[i].newId) + "/png.png"
+
+                    let artCropUrl_0 = "/images/cards/" + this.newId2Path(faces[i].newId) + "_0/art_crop.jpg"
+                    let normalUrl_0  = "/images/cards/" + this.newId2Path(faces[i].newId) + "_0/normal.jpg"
+                    let pngUrl_0     = "/images/cards/" + this.newId2Path(faces[i].newId) + "_0/png.png"
+
+                    // if (fs.existsSync("./public/" + artCropUrlOrig)) {
+                        faces[i].artCropUrl = artCropUrlOrig
+                    // } else if (fs.existsSync("./public/" + artCropUrl)) {
+                        faces[i].artCropUrl = artCropUrl
+                    // } else if (fs.existsSync("./public/" + artCropUrl_0)) {
+                        faces[i].artCropUrl = artCropUrl_0
+                    // } else {
+                        faces[i].artCropUrl = soonUrl
+                    // }
+
+                    // if (fs.existsSync("./public/" + normalUrlOrig)) {
+                        faces[i].normalUrl = normalUrlOrig
+                    // } else if (fs.existsSync("./public/" + normalUrl)) {
+                        faces[i].normalUrl = normalUrl
+                    // } else if (fs.existsSync("./public/" + normalUrl_0)) {
+                        faces[i].normalUrl = normalUrl_0
+                    // } else {
+                        faces[i].normalUrl = soonUrl
+                    // }
+
+                    // if (fs.existsSync("./public/" + pngUrlOrig)) {
+                        faces[i].pngUrl = pngUrlOrig
+                    // } else if (fs.existsSync("./public/" + pngUrl)) {
+                        faces[i].pngUrl = pngUrl
+                    // } else if (fs.existsSync("./public/" + pngUrl_0)) {
+                        faces[i].pngUrl = pngUrl_0
+                    // } else {
+                        faces[i].pngUrl = soonUrl
+                    // }
+                }            
+            }
+        } catch(err) {
+            console.error(err)
+        }
+    }
+
+    newId2Path = (newId: string | null | undefined) => {
+        let path = newId ? newId : ""
+
+        if (path.length > 0) {
+            if ((path.match(/_/g) || []).length > 2) {
+                path = path.replaceAll("_", "/")
+                let index = path.lastIndexOf("/")
+                path = path.substring(0, path.lastIndexOf("/")) + "_" + path.substring(index+1)
+            } else {
+                path = path.replaceAll("_", "/")
+            }   
+        }
+
+        return path
     }
 }
             

@@ -15,24 +15,24 @@ type MGArtist {
 type MGCard {
     arenaId: String
     artCropUrl: String
-    cmc: Int!
+    cmc: Int
     collectorNumber: String
     displayName: String
-    faceOrder: Int!
+    faceOrder: Int
     flavorText: String
     handModifier: String
-    isBooster: Boolean!
-    isDigital: Boolean!
-    isFoil: Boolean!
-    isFullArt: Boolean!
-    isHighresImage: Boolean!
-    isNonfoil: Boolean!
-    isOversized: Boolean!
-    isPromo: Boolean!
-    isReprint: Boolean!
-    isReserved: Boolean!
-    isStorySpotlight: Boolean!
-    isTextless: Boolean!
+    isBooster: Boolean
+    isDigital: Boolean
+    isFoil: Boolean
+    isFullArt: Boolean
+    isHighresImage: Boolean
+    isNonfoil: Boolean
+    isOversized: Boolean
+    isPromo: Boolean
+    isReprint: Boolean
+    isReserved: Boolean
+    isStorySpotlight: Boolean
+    isTextless: Boolean
     keyruneColor: String
     lifeModifier: String
     loyalty: String
@@ -40,9 +40,9 @@ type MGCard {
     mtgoFoilId: String
     mtgoId: String
     multiverseIds: [Int!]
-    numberOrder: Int!
-    name: String!
-    newId: String
+    numberOrder: Int
+    name: String
+    newId: String!
     normalUrl: String
     oracleText: String
     pngUrl: String
@@ -50,7 +50,7 @@ type MGCard {
     printedName: String
     printedText: String
     printedTypeLine: String
-    releasedAt: DateTime!
+    releasedAt: DateTime
     tcgplayerId: Int
     toughness: String
     typeLine: String
