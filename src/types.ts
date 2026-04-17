@@ -39,7 +39,10 @@ export type MGCard = {
   colorIndicators: Array<MGColor>;
   colors: Array<MGColor>;
   componentParts: Array<MGCardComponent>;
+  displayManaCost?: Maybe<Scalars['String']['output']>;
   displayName?: Maybe<Scalars['String']['output']>;
+  displayPowerToughness?: Maybe<Scalars['String']['output']>;
+  displayTypeLine?: Maybe<Scalars['String']['output']>;
   faceOrder?: Maybe<Scalars['Int']['output']>;
   faces: Array<MGCard>;
   flavorText?: Maybe<Scalars['String']['output']>;
@@ -71,7 +74,7 @@ export type MGCard = {
   name?: Maybe<Scalars['String']['output']>;
   newId: Scalars['String']['output'];
   normalUrl?: Maybe<Scalars['String']['output']>;
-  numberOrder?: Maybe<Scalars['Int']['output']>;
+  numberOrder?: Maybe<Scalars['Float']['output']>;
   oracleText?: Maybe<Scalars['String']['output']>;
   otherLanguages: Array<MGCard>;
   otherPrintings: Array<MGCard>;
@@ -83,6 +86,7 @@ export type MGCard = {
   printedTypeLine?: Maybe<Scalars['String']['output']>;
   rarity?: Maybe<MGRarity>;
   releasedAt?: Maybe<Scalars['DateTime']['output']>;
+  rulings?: Maybe<Array<MGRuling>>;
   set?: Maybe<MGSet>;
   subtypes: Array<MGCardType>;
   supertypes?: Maybe<Array<MGCardType>>;
@@ -178,6 +182,7 @@ export type MGLanguage = {
 
 export type MGLayout = {
   __typename?: 'MGLayout';
+  code: Scalars['String']['output'];
   description?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
 };
@@ -225,7 +230,7 @@ export type MGSectionedSets = {
 export type MGSet = {
   __typename?: 'MGSet';
   bigLogoURL?: Maybe<Scalars['String']['output']>;
-  cardCount: Scalars['Int']['output'];
+  cardCount?: Maybe<Scalars['Int']['output']>;
   cards: Array<MGCard>;
   children: Array<MGSet>;
   code: Scalars['String']['output'];
@@ -273,6 +278,7 @@ export type MGWatermark = {
 export type Query = {
   __typename?: 'Query';
   card?: Maybe<MGCard>;
+  cardPrintings?: Maybe<MGCards>;
   feeds?: Maybe<MGFeeds>;
   set?: Maybe<MGSet>;
   setTypes?: Maybe<MGSetType>;
@@ -286,6 +292,13 @@ export type Query = {
 /** Queries */
 export type QuerycardArgs = {
   id: Scalars['String']['input'];
+};
+
+
+/** Queries */
+export type QuerycardPrintingsArgs = {
+  id: Scalars['String']['input'];
+  languageID: Scalars['String']['input'];
 };
 
 
@@ -476,7 +489,10 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   colorIndicators?: Resolver<Array<ResolversTypes['MGColor']>, ParentType, ContextType>;
   colors?: Resolver<Array<ResolversTypes['MGColor']>, ParentType, ContextType>;
   componentParts?: Resolver<Array<ResolversTypes['MGCardComponent']>, ParentType, ContextType>;
+  displayManaCost?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  displayPowerToughness?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  displayTypeLine?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   faceOrder?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   faces?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
   flavorText?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -508,7 +524,7 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   newId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   normalUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  numberOrder?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  numberOrder?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   oracleText?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   otherLanguages?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
   otherPrintings?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
@@ -520,6 +536,7 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   printedTypeLine?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   rarity?: Resolver<Maybe<ResolversTypes['MGRarity']>, ParentType, ContextType>;
   releasedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  rulings?: Resolver<Maybe<Array<ResolversTypes['MGRuling']>>, ParentType, ContextType>;
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType>;
   subtypes?: Resolver<Array<ResolversTypes['MGCardType']>, ParentType, ContextType>;
   supertypes?: Resolver<Maybe<Array<ResolversTypes['MGCardType']>>, ParentType, ContextType>;
@@ -601,6 +618,7 @@ export type MGLanguageResolvers<ContextType = DataSourceContext, ParentType exte
 };
 
 export type MGLayoutResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGLayout'] = ResolversParentTypes['MGLayout']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
@@ -641,7 +659,7 @@ export type MGSectionedSetsResolvers<ContextType = DataSourceContext, ParentType
 
 export type MGSetResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGSet'] = ResolversParentTypes['MGSet']> = {
   bigLogoURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  cardCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  cardCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   cards?: Resolver<Array<ResolversTypes['MGCard']>, ParentType, ContextType>;
   children?: Resolver<Array<ResolversTypes['MGSet']>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -682,6 +700,7 @@ export type MGWatermarkResolvers<ContextType = DataSourceContext, ParentType ext
 
 export type QueryResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   card?: Resolver<Maybe<ResolversTypes['MGCard']>, ParentType, ContextType, RequireFields<QuerycardArgs, 'id'>>;
+  cardPrintings?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardPrintingsArgs, 'id' | 'languageID'>>;
   feeds?: Resolver<Maybe<ResolversTypes['MGFeeds']>, ParentType, ContextType>;
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetArgs>>;
   setTypes?: Resolver<Maybe<ResolversTypes['MGSetType']>, ParentType, ContextType>;

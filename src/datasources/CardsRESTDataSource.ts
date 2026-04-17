@@ -1,6 +1,6 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
-import { MGCard } from "../types";
+import { MGCard, MGCards } from "../types";
 import { CardsUtilities } from "./CardsUtilities";
 
 export class CardsRESTDataSource extends RESTDataSource {
@@ -12,5 +12,9 @@ export class CardsRESTDataSource extends RESTDataSource {
 
         return this.utilities.card(data);
     }
-    
+    async cardPrintings(id: string, languageID: string): Promise<MGCards> {
+        const data = await this.get<MGCard[]>(`printings/${id}/${languageID}?sortedBy=set_release&orderBy=desc&json=true`);
+
+        return this.utilities.cards(data);
+    }
 }

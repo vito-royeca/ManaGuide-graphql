@@ -25,6 +25,10 @@ export const resolvers: Resolvers = {
       return dataSources.cardsDataSource.card(id);
     },
 
+    cardPrintings: (_, { id, languageID }, { dataSources }) => {
+      return dataSources.cardsDataSource.cardPrintings(id, languageID);
+    },
+
     feeds: (_, __, { dataSources }) => {
       return dataSources.feedsDataSource.feeds();
     },
