@@ -1,4 +1,8 @@
 import { ApolloServer } from "@apollo/server";
+import { 
+    ApolloServerPluginLandingPageLocalDefault,
+    ApolloServerPluginLandingPageProductionDefault
+} from '@apollo/server/plugin/landingPage/default';
 import { startStandaloneServer } from "@apollo/server/standalone";
 
 import dotenv from "dotenv";
@@ -51,6 +55,15 @@ async function startApolloServer() {
         typeDefs,
         resolvers,
         introspection: process.env.NODE_ENV !== "production",
+        plugins: [
+            // Install a landing page plugin based on NODE_ENV
+            process.env.NODE_ENV === 'production'
+            ? ApolloServerPluginLandingPageProductionDefault({
+                graphRef: 'my-graph-id@my-graph-variant',
+                footer: false,
+                })
+            : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+        ],
     });
 
     const { url } = await startStandaloneServer(server, {
