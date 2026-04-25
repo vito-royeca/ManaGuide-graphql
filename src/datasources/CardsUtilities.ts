@@ -24,6 +24,21 @@ export class CardsUtilities {
         };
     }
 
+    printings = (data: any[]): MGCards => {
+        let cardsData: any[] = [];
+
+        data.forEach((card, _) => {
+            let cardData = camelcaseKeys(card, { deep: true });
+            this.formatCard(cardData, cardData.set, cardData.set.language?.code);
+            cardsData.push(cardData);
+        });
+        
+        return {
+            count: cardsData.length,
+            cards: cardsData
+        };
+    }
+
     formatCard = (card: MGCard, set: MGSet, language = "en"): MGCard => {
         // this.updateImageURLs(card, set, language);
 

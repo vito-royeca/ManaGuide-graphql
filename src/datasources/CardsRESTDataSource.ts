@@ -12,9 +12,10 @@ export class CardsRESTDataSource extends RESTDataSource {
 
         return this.utilities.card(data);
     }
+
     async cardPrintings(id: string, languageID: string): Promise<MGCards> {
         const data = await this.get<MGCard[]>(`printings/${id}/${languageID}?sortedBy=set_release&orderBy=desc&json=true`);
 
-        return this.utilities.cards(data);
+        return this.utilities.printings(data);
     }
 }

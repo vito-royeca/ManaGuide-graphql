@@ -31,16 +31,15 @@ export class CardsSQLDataSource extends BatchedSQLDataSource {
     async cardPrintings(id: string, languageID: string): Promise<MGCards> {
         try {
             const params = [id, languageID, "set_release", "desc"];
-            console.log("Executing SQL query with params:", params);
             const sql = "SELECT * from selectPrintings(?,?,?,?)";
             const data = await this.db.query
                 .raw(sql, params)
-            const rows = data.rows && data.rows.length >= 1 ? data.rows[0] : undefined;
-            console.log(rows);
+            const rows = data.rows;
+
             if (rows === undefined) {
                 throw new Error(`Card with ID ${id} not found`);
             }
-            return this.utilities.cards(rows);
+            return this.utilities.printings(rows);
         } catch (error) {
             console.error("Error executing raw SQL query:", error);
             throw error;
