@@ -261,6 +261,7 @@ type Query {
 
     card(id: String!): MGCard
     cardPrintings(id: String!, languageID: String!): MGCards
+    cardsByIDs(ids: [String!]!): MGCards
 
     feeds: MGFeeds
 }

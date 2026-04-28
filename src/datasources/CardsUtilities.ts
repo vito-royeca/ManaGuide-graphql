@@ -24,7 +24,7 @@ export class CardsUtilities {
         };
     }
 
-    printings = (data: any[]): MGCards => {
+    cardArray = (data: any[]): MGCards => {
         let cardsData: any[] = [];
 
         data.forEach((card, _) => {

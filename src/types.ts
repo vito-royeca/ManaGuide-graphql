@@ -279,6 +279,7 @@ export type Query = {
   __typename?: 'Query';
   card?: Maybe<MGCard>;
   cardPrintings?: Maybe<MGCards>;
+  cardsByIDs?: Maybe<MGCards>;
   feeds?: Maybe<MGFeeds>;
   set?: Maybe<MGSet>;
   setTypes?: Maybe<MGSetType>;
@@ -299,6 +300,12 @@ export type QuerycardArgs = {
 export type QuerycardPrintingsArgs = {
   id: Scalars['String']['input'];
   languageID: Scalars['String']['input'];
+};
+
+
+/** Queries */
+export type QuerycardsByIDsArgs = {
+  ids: Array<Scalars['String']['input']>;
 };
 
 
@@ -701,6 +708,7 @@ export type MGWatermarkResolvers<ContextType = DataSourceContext, ParentType ext
 export type QueryResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   card?: Resolver<Maybe<ResolversTypes['MGCard']>, ParentType, ContextType, RequireFields<QuerycardArgs, 'id'>>;
   cardPrintings?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardPrintingsArgs, 'id' | 'languageID'>>;
+  cardsByIDs?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardsByIDsArgs, 'ids'>>;
   feeds?: Resolver<Maybe<ResolversTypes['MGFeeds']>, ParentType, ContextType>;
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetArgs>>;
   setTypes?: Resolver<Maybe<ResolversTypes['MGSetType']>, ParentType, ContextType>;
