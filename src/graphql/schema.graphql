@@ -66,6 +66,7 @@ type MGCard {
   formatLegalities: [MGCardFormatLegality!]!
   frame: MGFrame
   frameEffects: [MGFrameEffect!]!
+  keywords: [MGKeyword!]!
   language: MGLanguage
   layout: MGLayout
   otherLanguages: [MGCard!]!
@@ -126,6 +127,10 @@ type MGFrame {
 
 type MGFrameEffect {
   description: String
+  name: String!
+}
+
+type MGKeyword {
   name: String!
 }
 

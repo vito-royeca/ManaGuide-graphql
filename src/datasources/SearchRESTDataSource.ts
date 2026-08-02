@@ -4,7 +4,7 @@ import { MGCard, MGCards } from "../types";
 import { CardsUtilities } from "./CardsUtilities";
 
 export class SearchRESTDataSource extends RESTDataSource {
-    baseURL = "https://managuideapp.com/";
+    baseURL = "https://manaprobe.com/";
     utilities = new CardsUtilities();
 
     async search(query: string): Promise<MGCards> {

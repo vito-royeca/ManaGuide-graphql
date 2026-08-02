@@ -12,15 +12,13 @@ export class SetsSQLDataSource extends BatchedSQLDataSource {
 
     async set(input: SetByIDInput): Promise<MGSet> {
         try {
-            const utilities = new SetsUtilities();
-
             if (input.sortedBy === "name" && input.orderBy === "asc") {
                 const fromClause = `matv_cmset_${input.setID}_${input.languageID}`;
                 const data = await this.db.query
                     .select("*")
                     .from(fromClause)
                     .cache(10);
-                return utilities.set(data, input.languageID);
+                return this.utilities.set(data, input.languageID);
             } else {
                 const params = [input.setID, input.languageID, input.sortedBy || "name", input.orderBy || "asc"];
                 const sql = "select * from selectSet(?,?,?,?)";
@@ -31,7 +29,7 @@ export class SetsSQLDataSource extends BatchedSQLDataSource {
                 if (setsData === undefined) {
                     throw new Error(`Set with ID ${input.setID} not found`);
                 }
-                return utilities.set(setsData, input.languageID);
+                return this.utilities.set(setsData, input.languageID);
             }
         } catch (error) {
             console.error("Error executing raw SQL query: ", error);

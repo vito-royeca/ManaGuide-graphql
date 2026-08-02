@@ -4,7 +4,7 @@ import { MGSectionedSets, MGSet, MGSets, SetByIDInput } from "../types";
 import { SetsUtilities } from "./SetsUtilities";
 
 export class SetsRESTDataSource extends RESTDataSource {
-    baseURL = "https://managuideapp.com/";
+    baseURL = "https://manaprobe.com/";
     utilities = new SetsUtilities();
     
     async set(input: SetByIDInput): Promise<MGSet> {

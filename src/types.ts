@@ -63,6 +63,7 @@ export type MGCard = {
   isStorySpotlight?: Maybe<Scalars['Boolean']['output']>;
   isTextless?: Maybe<Scalars['Boolean']['output']>;
   keyruneColor?: Maybe<Scalars['String']['output']>;
+  keywords: Array<MGKeyword>;
   language?: Maybe<MGLanguage>;
   layout?: Maybe<MGLayout>;
   lifeModifier?: Maybe<Scalars['String']['output']>;
@@ -170,6 +171,11 @@ export type MGFrame = {
 export type MGFrameEffect = {
   __typename?: 'MGFrameEffect';
   description?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+};
+
+export type MGKeyword = {
+  __typename?: 'MGKeyword';
   name: Scalars['String']['output'];
 };
 
@@ -421,6 +427,7 @@ export type ResolversTypes = {
   MGFormat: ResolverTypeWrapper<MGFormat>;
   MGFrame: ResolverTypeWrapper<MGFrame>;
   MGFrameEffect: ResolverTypeWrapper<MGFrameEffect>;
+  MGKeyword: ResolverTypeWrapper<MGKeyword>;
   MGLanguage: ResolverTypeWrapper<MGLanguage>;
   MGLayout: ResolverTypeWrapper<MGLayout>;
   MGLegality: ResolverTypeWrapper<MGLegality>;
@@ -460,6 +467,7 @@ export type ResolversParentTypes = {
   MGFormat: MGFormat;
   MGFrame: MGFrame;
   MGFrameEffect: MGFrameEffect;
+  MGKeyword: MGKeyword;
   MGLanguage: MGLanguage;
   MGLayout: MGLayout;
   MGLegality: MGLegality;
@@ -527,6 +535,7 @@ export type MGCardResolvers<ContextType = DataSourceContext, ParentType extends 
   isStorySpotlight?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   isTextless?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   keyruneColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  keywords?: Resolver<Array<ResolversTypes['MGKeyword']>, ParentType, ContextType>;
   language?: Resolver<Maybe<ResolversTypes['MGLanguage']>, ParentType, ContextType>;
   layout?: Resolver<Maybe<ResolversTypes['MGLayout']>, ParentType, ContextType>;
   lifeModifier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -622,6 +631,10 @@ export type MGFrameResolvers<ContextType = DataSourceContext, ParentType extends
 
 export type MGFrameEffectResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGFrameEffect'] = ResolversParentTypes['MGFrameEffect']> = {
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type MGKeywordResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGKeyword'] = ResolversParentTypes['MGKeyword']> = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
@@ -743,6 +756,7 @@ export type Resolvers<ContextType = DataSourceContext> = {
   MGFormat?: MGFormatResolvers<ContextType>;
   MGFrame?: MGFrameResolvers<ContextType>;
   MGFrameEffect?: MGFrameEffectResolvers<ContextType>;
+  MGKeyword?: MGKeywordResolvers<ContextType>;
   MGLanguage?: MGLanguageResolvers<ContextType>;
   MGLayout?: MGLayoutResolvers<ContextType>;
   MGLegality?: MGLegalityResolvers<ContextType>;
