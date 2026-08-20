@@ -205,11 +205,19 @@ export type MGRarity = {
 
 export type MGRule = {
   __typename?: 'MGRule';
-  definition: Scalars['String']['output'];
+  children?: Maybe<Array<MGRule>>;
+  definition?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
-  order: Scalars['Float']['output'];
+  order?: Maybe<Scalars['Float']['output']>;
   parent?: Maybe<MGRule>;
-  term: Scalars['String']['output'];
+  term?: Maybe<Scalars['String']['output']>;
+  termSection?: Maybe<Scalars['String']['output']>;
+};
+
+export type MGRules = {
+  __typename?: 'MGRules';
+  count: Scalars['Int']['output'];
+  rules: Array<MGRule>;
 };
 
 export type MGRuling = {
@@ -287,6 +295,9 @@ export type Query = {
   cardPrintings?: Maybe<MGCards>;
   cardsByIDs?: Maybe<MGCards>;
   feeds?: Maybe<MGFeeds>;
+  rule?: Maybe<MGRule>;
+  rules?: Maybe<MGRules>;
+  rulesByQuery?: Maybe<MGRules>;
   search?: Maybe<MGCards>;
   set?: Maybe<MGSet>;
   setTypes?: Maybe<MGSetType>;
@@ -313,6 +324,18 @@ export type QuerycardPrintingsArgs = {
 /** Queries */
 export type QuerycardsByIDsArgs = {
   ids: Array<Scalars['String']['input']>;
+};
+
+
+/** Queries */
+export type QueryruleArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+/** Queries */
+export type QueryrulesByQueryArgs = {
+  query: Scalars['String']['input'];
 };
 
 
@@ -433,6 +456,7 @@ export type ResolversTypes = {
   MGLegality: ResolverTypeWrapper<MGLegality>;
   MGRarity: ResolverTypeWrapper<MGRarity>;
   MGRule: ResolverTypeWrapper<MGRule>;
+  MGRules: ResolverTypeWrapper<MGRules>;
   MGRuling: ResolverTypeWrapper<MGRuling>;
   MGSectionedSet: ResolverTypeWrapper<MGSectionedSet>;
   MGSectionedSets: ResolverTypeWrapper<MGSectionedSets>;
@@ -473,6 +497,7 @@ export type ResolversParentTypes = {
   MGLegality: MGLegality;
   MGRarity: MGRarity;
   MGRule: MGRule;
+  MGRules: MGRules;
   MGRuling: MGRuling;
   MGSectionedSet: MGSectionedSet;
   MGSectionedSets: MGSectionedSets;
@@ -659,11 +684,18 @@ export type MGRarityResolvers<ContextType = DataSourceContext, ParentType extend
 };
 
 export type MGRuleResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGRule'] = ResolversParentTypes['MGRule']> = {
-  definition?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  children?: Resolver<Maybe<Array<ResolversTypes['MGRule']>>, ParentType, ContextType>;
+  definition?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  order?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  order?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   parent?: Resolver<Maybe<ResolversTypes['MGRule']>, ParentType, ContextType>;
-  term?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  term?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  termSection?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type MGRulesResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGRules'] = ResolversParentTypes['MGRules']> = {
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  rules?: Resolver<Array<ResolversTypes['MGRule']>, ParentType, ContextType>;
 };
 
 export type MGRulingResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['MGRuling'] = ResolversParentTypes['MGRuling']> = {
@@ -730,6 +762,9 @@ export type QueryResolvers<ContextType = DataSourceContext, ParentType extends R
   cardPrintings?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardPrintingsArgs, 'id' | 'languageID'>>;
   cardsByIDs?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardsByIDsArgs, 'ids'>>;
   feeds?: Resolver<Maybe<ResolversTypes['MGFeeds']>, ParentType, ContextType>;
+  rule?: Resolver<Maybe<ResolversTypes['MGRule']>, ParentType, ContextType, RequireFields<QueryruleArgs, 'id'>>;
+  rules?: Resolver<Maybe<ResolversTypes['MGRules']>, ParentType, ContextType>;
+  rulesByQuery?: Resolver<Maybe<ResolversTypes['MGRules']>, ParentType, ContextType, RequireFields<QueryrulesByQueryArgs, 'query'>>;
   search?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerysearchArgs, 'query'>>;
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetArgs>>;
   setTypes?: Resolver<Maybe<ResolversTypes['MGSetType']>, ParentType, ContextType>;
@@ -762,6 +797,7 @@ export type Resolvers<ContextType = DataSourceContext> = {
   MGLegality?: MGLegalityResolvers<ContextType>;
   MGRarity?: MGRarityResolvers<ContextType>;
   MGRule?: MGRuleResolvers<ContextType>;
+  MGRules?: MGRulesResolvers<ContextType>;
   MGRuling?: MGRulingResolvers<ContextType>;
   MGSectionedSet?: MGSectionedSetResolvers<ContextType>;
   MGSectionedSets?: MGSectionedSetsResolvers<ContextType>;

@@ -26,6 +26,8 @@ import { SearchRESTDataSource } from "./datasources/SearchRESTDataSource";
 import { SearchSQLDataSource } from "./datasources/SearchSQLDataSource";
 import { SetsRESTDataSource } from "./datasources/SetsRESTDataSource";
 import { SetsSQLDataSource } from "./datasources/SetsSQLDataSource";
+import { RulesSQLDataSource } from "./datasources/RulesSQLDataSource";
+import { RulesRESTDataSource } from "./datasources/RulesRESTDataSource";
 
 dotenv.config();
 
@@ -52,6 +54,7 @@ function createDataSources(cache: any) {
                 searchDataSource: new SearchSQLDataSource({ knexConfig, cache }),
                 feedsDataSource: new FeedsDataSource(),
                 setsDataSource: new SetsSQLDataSource({ knexConfig, cache }),
+                rulesDataSource: new RulesSQLDataSource({ knexConfig, cache }),
             },
         };
     } else {
@@ -61,6 +64,7 @@ function createDataSources(cache: any) {
                 feedsDataSource: new FeedsDataSource(),
                 searchDataSource: new SearchRESTDataSource({ cache }),
                 setsDataSource: new SetsRESTDataSource({ cache }),
+                rulesDataSource: new RulesRESTDataSource({ cache }),
             },
         };
     }

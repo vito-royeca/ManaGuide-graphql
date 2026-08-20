@@ -42,6 +42,19 @@ export const resolvers: Resolvers = {
       return dataSources.searchDataSource.search(query);
     },
 
+    // Rules
+    rules: (_, __, { dataSources }) => {
+      return dataSources.rulesDataSource.rules();
+    },
+
+    rule: (_, { id }, { dataSources }) => {
+      return dataSources.rulesDataSource.rule(id);
+    },
+
+    rulesByQuery: (_, { query }, { dataSources }) => {
+      return dataSources.rulesDataSource.rulesByQuery(query);
+    },
+
     // Feeds
     feeds: (_, __, { dataSources }) => {
       return dataSources.feedsDataSource.feeds();
