@@ -64,4 +64,22 @@ export class CardsSQLDataSource extends BatchedSQLDataSource {
             throw error;
         }
     }
+
+    async cardsSearch(query: string): Promise<MGCards> {
+        try {
+            const params = [query, "name", "asc"];
+            const sql = "SELECT * from searchCards(?,?,?)";
+            const data = await this.db.query
+                .raw(sql, params)
+            const rows = data.rows;
+
+            if (rows === undefined) {
+                throw new Error(`No cards found for query: ${query}`);
+            }
+            return this.utilities.cardArray(rows);
+        } catch (error) {
+            console.error("Error executing raw SQL query: ", error);
+            throw error;
+        }
+    }
 }

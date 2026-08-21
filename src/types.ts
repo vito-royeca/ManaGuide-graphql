@@ -294,11 +294,10 @@ export type Query = {
   card?: Maybe<MGCard>;
   cardPrintings?: Maybe<MGCards>;
   cardsByIDs?: Maybe<MGCards>;
+  cardsSearch?: Maybe<MGCards>;
   feeds?: Maybe<MGFeeds>;
-  rule?: Maybe<MGRule>;
   rules?: Maybe<MGRules>;
-  rulesByQuery?: Maybe<MGRules>;
-  search?: Maybe<MGCards>;
+  rulesSearch?: Maybe<MGRules>;
   set?: Maybe<MGSet>;
   setTypes?: Maybe<MGSetType>;
   sets?: Maybe<MGSets>;
@@ -328,19 +327,19 @@ export type QuerycardsByIDsArgs = {
 
 
 /** Queries */
-export type QueryruleArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-/** Queries */
-export type QueryrulesByQueryArgs = {
+export type QuerycardsSearchArgs = {
   query: Scalars['String']['input'];
 };
 
 
 /** Queries */
-export type QuerysearchArgs = {
+export type QueryrulesArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Queries */
+export type QueryrulesSearchArgs = {
   query: Scalars['String']['input'];
 };
 
@@ -761,11 +760,10 @@ export type QueryResolvers<ContextType = DataSourceContext, ParentType extends R
   card?: Resolver<Maybe<ResolversTypes['MGCard']>, ParentType, ContextType, RequireFields<QuerycardArgs, 'id'>>;
   cardPrintings?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardPrintingsArgs, 'id' | 'languageID'>>;
   cardsByIDs?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardsByIDsArgs, 'ids'>>;
+  cardsSearch?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardsSearchArgs, 'query'>>;
   feeds?: Resolver<Maybe<ResolversTypes['MGFeeds']>, ParentType, ContextType>;
-  rule?: Resolver<Maybe<ResolversTypes['MGRule']>, ParentType, ContextType, RequireFields<QueryruleArgs, 'id'>>;
-  rules?: Resolver<Maybe<ResolversTypes['MGRules']>, ParentType, ContextType>;
-  rulesByQuery?: Resolver<Maybe<ResolversTypes['MGRules']>, ParentType, ContextType, RequireFields<QueryrulesByQueryArgs, 'query'>>;
-  search?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerysearchArgs, 'query'>>;
+  rules?: Resolver<Maybe<ResolversTypes['MGRules']>, ParentType, ContextType, Partial<QueryrulesArgs>>;
+  rulesSearch?: Resolver<Maybe<ResolversTypes['MGRules']>, ParentType, ContextType, RequireFields<QueryrulesSearchArgs, 'query'>>;
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetArgs>>;
   setTypes?: Resolver<Maybe<ResolversTypes['MGSetType']>, ParentType, ContextType>;
   sets?: Resolver<Maybe<ResolversTypes['MGSets']>, ParentType, ContextType>;

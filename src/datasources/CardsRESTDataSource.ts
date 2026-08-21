@@ -25,4 +25,10 @@ export class CardsRESTDataSource extends RESTDataSource {
             "cards": []
         };
     }
+
+    async cardsSearch(query: string): Promise<MGCards> {
+        const data = await this.get<MGCard[]>(`search?query=${query}&json=true`);
+
+        return this.utilities.cardArray(data);
+    }
 }

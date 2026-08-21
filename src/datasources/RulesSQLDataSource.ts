@@ -10,11 +10,12 @@ export class RulesSQLDataSource extends BatchedSQLDataSource {
         super(config);
     }
 
-    async rules(): Promise<MGRules> {
+    async rules(id: string | undefined): Promise<MGRules> {
         try {
-            const sql = "select * from selectRules(null)";
+            const params = id === undefined ? [] : [id];
+            const sql = `select * from selectRules(${id === undefined ? "null" : "?"})`;
             const data = await this.db.query
-                .raw(sql)
+                .raw(sql, params)
             const rows = data.rows;
 
             if (rows === undefined) {
@@ -27,26 +28,7 @@ export class RulesSQLDataSource extends BatchedSQLDataSource {
         }
     }
 
-    async rule(id: string): Promise<MGRule> {
-        try {
-            const params = [id];
-            const sql = "SELECT * from selectRules(?)";
-            const data = await this.db.query
-                .raw(sql, params)
-            const rows = data.rows && data.rows.length >= 1 ? data.rows[0] : undefined;
-
-            if (rows === undefined) {
-                throw new Error(`Rule with ID ${id} not found`);
-            }
-            
-            return this.utilities.rule(rows);
-        } catch (error) {
-            console.error("Error executing raw SQL query: ", error);
-            throw error;
-        }
-    }
-
-    async rulesByQuery(query: string): Promise<MGRules> {
+    async rulesSearch(query: string): Promise<MGRules> {
         try {
             const params = [query];
             const sql = `SELECT * from searchRules(?)`;

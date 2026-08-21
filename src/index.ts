@@ -22,8 +22,6 @@ import { CardsSQLDataSource } from "./datasources/CardsSQLDataSource";
 import { CardsRESTDataSource } from "./datasources/CardsRESTDataSource";
 import { FeedsDataSource } from "./datasources/FeedsDataSource";
 import { resolvers } from "./resolvers";
-import { SearchRESTDataSource } from "./datasources/SearchRESTDataSource";
-import { SearchSQLDataSource } from "./datasources/SearchSQLDataSource";
 import { SetsRESTDataSource } from "./datasources/SetsRESTDataSource";
 import { SetsSQLDataSource } from "./datasources/SetsSQLDataSource";
 import { RulesSQLDataSource } from "./datasources/RulesSQLDataSource";
@@ -51,10 +49,9 @@ function createDataSources(cache: any) {
         return {
             dataSources: {
                 cardsDataSource: new CardsSQLDataSource({ knexConfig, cache }),
-                searchDataSource: new SearchSQLDataSource({ knexConfig, cache }),
                 feedsDataSource: new FeedsDataSource(),
-                setsDataSource: new SetsSQLDataSource({ knexConfig, cache }),
                 rulesDataSource: new RulesSQLDataSource({ knexConfig, cache }),
+                setsDataSource: new SetsSQLDataSource({ knexConfig, cache }),
             },
         };
     } else {
@@ -62,9 +59,8 @@ function createDataSources(cache: any) {
             dataSources: {
                 cardsDataSource: new CardsRESTDataSource({ cache }),
                 feedsDataSource: new FeedsDataSource(),
-                searchDataSource: new SearchRESTDataSource({ cache }),
-                setsDataSource: new SetsRESTDataSource({ cache }),
                 rulesDataSource: new RulesRESTDataSource({ cache }),
+                setsDataSource: new SetsRESTDataSource({ cache }),
             },
         };
     }

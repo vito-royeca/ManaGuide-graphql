@@ -7,21 +7,21 @@ export class RulesRESTDataSource extends RESTDataSource {
     baseURL = "https://manaprobe.com/";
     utilities = new RulesUtilities();
 
-    async rules(id: string): Promise<MGRules> {
-        const data = await this.get<MGRule[]>(`rules/${id}?json=true`);
+    async rules(id: string | undefined): Promise<MGRules> {
+        if (id === undefined) {
+            const data = await this.get<MGRule[]>(`rules?json=true`);
 
-        return this.utilities.rules(data);
+            return this.utilities.ruleArray(data);
+        } else {
+            const data = await this.get<MGRule>(`rule/${id}?json=true`);
+
+            return this.utilities.ruleArray([data]);
+        }
     }
 
-    async rule(id: string): Promise<MGRule> {
-        const data = await this.get<MGRule>(`rule/${id}?json=true`);
-
-        return this.utilities.rule(data);
-    }
-    
-    async rulesByQuery(query: string): Promise<MGRules> {
+    async rulesSearch(query: string): Promise<MGRules> {
         const data = await this.get<MGRule[]>(`rules?query=${encodeURIComponent(query)}&json=true`);
 
-        return this.utilities.rules(data);
+        return this.utilities.ruleArray(data);
     }
 }

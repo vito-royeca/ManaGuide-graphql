@@ -2,6 +2,37 @@ import { Resolvers } from "./types";
 
 export const resolvers: Resolvers = {
   Query: {
+    // Cards
+    card: (_, { id }, { dataSources }) => {
+      return dataSources.cardsDataSource.card(id);
+    },
+
+    cardPrintings: (_, { id, languageID }, { dataSources }) => {
+      return dataSources.cardsDataSource.cardPrintings(id, languageID);
+    },
+
+    cardsByIDs: (_, { ids }, { dataSources }) => {
+      return dataSources.cardsDataSource.cardsByIDs(ids);
+    },
+
+    cardsSearch: (_, { query }, { dataSources }) => {
+      return dataSources.cardsDataSource.cardsSearch(query);
+    },
+
+    // Feeds
+    feeds: (_, __, { dataSources }) => {
+      return dataSources.feedsDataSource.feeds();
+    },
+
+    // Rules
+    rules: (_, { id }, { dataSources }) => {
+      return dataSources.rulesDataSource.rules(id);
+    },
+
+    rulesSearch: (_, { query }, { dataSources }) => {
+      return dataSources.rulesDataSource.rulesSearch(query);
+    },
+
     // Set
     set: (_, { input }, { dataSources }) => {
       if (!input) {
@@ -22,42 +53,6 @@ export const resolvers: Resolvers = {
     },
     setsByYear: (_, __, { dataSources }) => {
       return dataSources.setsDataSource.setsByYear();
-    },
-    
-    // Cards
-    card: (_, { id }, { dataSources }) => {
-      return dataSources.cardsDataSource.card(id);
-    },
-
-    cardPrintings: (_, { id, languageID }, { dataSources }) => {
-      return dataSources.cardsDataSource.cardPrintings(id, languageID);
-    },
-
-    cardsByIDs: (_, { ids }, { dataSources }) => {
-      return dataSources.cardsDataSource.cardsByIDs(ids);
-    },
-
-    // Search
-    search: (_, { query }, { dataSources }) => {
-      return dataSources.searchDataSource.search(query);
-    },
-
-    // Rules
-    rules: (_, __, { dataSources }) => {
-      return dataSources.rulesDataSource.rules();
-    },
-
-    rule: (_, { id }, { dataSources }) => {
-      return dataSources.rulesDataSource.rule(id);
-    },
-
-    rulesByQuery: (_, { query }, { dataSources }) => {
-      return dataSources.rulesDataSource.rulesByQuery(query);
-    },
-
-    // Feeds
-    feeds: (_, __, { dataSources }) => {
-      return dataSources.feedsDataSource.feeds();
     },
   }
 };
