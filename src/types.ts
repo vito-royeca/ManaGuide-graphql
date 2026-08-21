@@ -208,7 +208,6 @@ export type MGRule = {
   children?: Maybe<Array<MGRule>>;
   definition?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
-  order?: Maybe<Scalars['Float']['output']>;
   parent?: Maybe<MGRule>;
   term?: Maybe<Scalars['String']['output']>;
   termSection?: Maybe<Scalars['String']['output']>;
@@ -686,7 +685,6 @@ export type MGRuleResolvers<ContextType = DataSourceContext, ParentType extends 
   children?: Resolver<Maybe<Array<ResolversTypes['MGRule']>>, ParentType, ContextType>;
   definition?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  order?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   parent?: Resolver<Maybe<ResolversTypes['MGRule']>, ParentType, ContextType>;
   term?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   termSection?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
