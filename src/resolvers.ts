@@ -25,6 +25,11 @@ export const resolvers: Resolvers = {
     },
 
     // Rules
+
+    glossarySearch: (_, { letter }, { dataSources }) => {
+      return dataSources.rulesDataSource.glossarySearch(letter);
+    },
+
     rules: (_, { id }, { dataSources }) => {
       return dataSources.rulesDataSource.rules(id);
     },

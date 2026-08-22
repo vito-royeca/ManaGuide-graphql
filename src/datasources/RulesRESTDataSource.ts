@@ -24,4 +24,11 @@ export class RulesRESTDataSource extends RESTDataSource {
 
         return this.utilities.ruleArray(data);
     }
+
+    async glossarySearch(letter: string): Promise<MGRules> {
+        return {
+            count: 0,
+            rules: []
+        };
+    }
 }

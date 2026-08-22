@@ -266,6 +266,8 @@ type Query {
 
   feeds: MGFeeds
 
+  glossarySearch(letter: String!): MGRules
+
   rules(id: Int): MGRules
   rulesSearch(query: String!): MGRules
 

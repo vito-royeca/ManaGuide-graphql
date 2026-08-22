@@ -295,6 +295,7 @@ export type Query = {
   cardsByIDs?: Maybe<MGCards>;
   cardsSearch?: Maybe<MGCards>;
   feeds?: Maybe<MGFeeds>;
+  glossarySearch?: Maybe<MGRules>;
   rules?: Maybe<MGRules>;
   rulesSearch?: Maybe<MGRules>;
   set?: Maybe<MGSet>;
@@ -328,6 +329,12 @@ export type QuerycardsByIDsArgs = {
 /** Queries */
 export type QuerycardsSearchArgs = {
   query: Scalars['String']['input'];
+};
+
+
+/** Queries */
+export type QueryglossarySearchArgs = {
+  letter: Scalars['String']['input'];
 };
 
 
@@ -760,6 +767,7 @@ export type QueryResolvers<ContextType = DataSourceContext, ParentType extends R
   cardsByIDs?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardsByIDsArgs, 'ids'>>;
   cardsSearch?: Resolver<Maybe<ResolversTypes['MGCards']>, ParentType, ContextType, RequireFields<QuerycardsSearchArgs, 'query'>>;
   feeds?: Resolver<Maybe<ResolversTypes['MGFeeds']>, ParentType, ContextType>;
+  glossarySearch?: Resolver<Maybe<ResolversTypes['MGRules']>, ParentType, ContextType, RequireFields<QueryglossarySearchArgs, 'letter'>>;
   rules?: Resolver<Maybe<ResolversTypes['MGRules']>, ParentType, ContextType, Partial<QueryrulesArgs>>;
   rulesSearch?: Resolver<Maybe<ResolversTypes['MGRules']>, ParentType, ContextType, RequireFields<QueryrulesSearchArgs, 'query'>>;
   set?: Resolver<Maybe<ResolversTypes['MGSet']>, ParentType, ContextType, Partial<QuerysetArgs>>;

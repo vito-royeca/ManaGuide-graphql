@@ -45,4 +45,22 @@ export class RulesSQLDataSource extends BatchedSQLDataSource {
             throw error;
         }
     }
+
+    async glossarySearch(letter: string): Promise<MGRules> {
+        try {
+            const params = [letter];
+            const sql = `SELECT * from searchGlossary(?)`;
+            const data = await this.db.query
+                .raw(sql, params)
+            const rows = data.rows;
+
+            if (rows === undefined) {
+                throw new Error(`Glossary with letter ${letter} not found`);
+            }
+            return this.utilities.ruleArray(rows);
+        } catch (error) {
+            console.error("Error executing raw SQL query: ", error);
+            throw error;
+        }
+    }
 }
